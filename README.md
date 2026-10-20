@@ -1,149 +1,191 @@
-README
-Cahier des Charges - Application Hôpital de la Main
+# 🏥 Hôpital de la Main
 
-## 1. Présentation du Projet
+Application web **interne** de gestion des patients d'un hôpital spécialisé dans les pathologies de la main : dossiers patients, rendez-vous, opérations, prescriptions, imagerie et chambres, le tout centralisé et protégé par un système de rôles.
 
-* **Nom du projet :** Hôpital de la Main* 
-**Type :** Site-Application interne pour un hôpital
-* **Objectif :** Permettre aux médecins et infirmiers de gérer les patients, les opérations, leurs traitements, et leurs informations médicales de manière centralisée.
-* **Utilisateur cible :** Médecins, Infirmiers, Secrétaires de l'hôpital.
-* **Accès :** Interne uniquement, aucune connexion externe autorisée.
+> Projet réalisé dans le cadre de la formation **CDA (Concepteur Développeur d'Applications)**.
+> Développeur : **Dmytriyev Savva** · Responsable du projet : **Maria**
 
-### 1.1 Demands client
-**Les objectifs de l'application :** 
-* L'application Hôpital de la Main doit être un outil numérique pour centraliser la gestion et le soin des patients ayant des problèmes avec leurs mains. Son objectif est d'avoir accès à l'information du patient et son emplacement actuel pour un médecin ou une infirmière, ainsi que de réduire la quantité de papier et d'éviter toute perte de documents. 
-* Le corps du projet repose sur la simplicité d'usage et la mise en relation du patient avec l'ensemble de l'équipe de l'hôpital pour améliorer l'efficacité des soins et rendre les visites plus agréables.
+---
 
-**Les cibles du projet :** 
-* Le projet de l'Hôpital de la Main s'adresse à plusieurs types d'utilisateurs. Tout d'abord, aux médecins spécialistes pour faciliter le suivi de leurs patients. Aux infirmières, qui peuvent voir la prescription du médecin et ajouter des notes tout au long des soins. En cas d'opération, c'est l'anesthésiste qui prescrit une anesthésie personnalisée. Enfin, à l'équipe administrative. Un rôle d'administrateur global doit compléter l'organisation pour surveiller la plateforme dans son ensemble.
+## 📋 Sommaire
 
-**Description de l'application :**
-* L'application est pour une utilisation interne uniquement. L'accès au site est possible uniquement après la connexion.
-* La création de compte par utilisateur est impossible. Le compte est créé uniquement par un administrateur.
-* Chaque profil doit avoir différents accès aux différentes informations. Certaines actions ne sont disponibles que pour certains profils.
-* L'administrateur de la plate-forme dispose d'un espace de supervision pour gérer tous les utilisateurs, leurs rôles et les créations de comptes.
-* À chaque nouveau patient créé par l'administration, un dossier avec son numéro personnel doit être attribué. Chaque membre de l'équipe a sa propre immatriculation.
-* L'application centralise plusieurs actions : admission de patients et création de dossier, donner un rendez-vous, attribution d'un médecin de suivi, prescription de traitement et ajout d'images de scanner.
-* La gestion des opérations : attribution d'anesthésiologie, une chambre pour patients et un bloc opératoire avec l'heure précise, le traitement donné pendant l'opération, la durée et par qui l'opération a été réalisée. L'administration et l'organisation de la sortie du patient.
-* La partie administrative doit inclure : la possibilité d'ajouter un médecin et tous les membres de l'équipe, attribuer un patient à ce médecin, ajouter des informations par membre de l'équipe, suppression et modifications des informations uniquement par le médecin. Chaque membre de l'équipe doit avoir des autorisations différentes pour accéder aux différentes données du dossier patient.
+- [Contexte et objectifs](#-contexte-et-objectifs)
+- [Fonctionnalités](#-fonctionnalités)
+- [Rôles et permissions](#-rôles-et-permissions)
+- [Stack technique](#-stack-technique)
+- [Installation](#-installation)
+- [Comptes de démonstration](#-comptes-de-démonstration)
+- [Structure du projet](#-structure-du-projet)
+- [Sécurité](#-sécurité)
+- [Charte graphique](#-charte-graphique)
+- [Feuille de route (MVP)](#-feuille-de-route-mvp)
+- [Gestion de projet](#-gestion-de-projet)
 
-**La charte graphique :**
-* L'univers médical impose ses propres règles : les couleurs doivent être calmes et claires sans perturber la visibilité. Couleur blanche - général, couleur bleue - pour les actions neutres, couleur verte - pour valider les actions, couleur rouge - danger ou suppression. 
-* Le style du site doit être intuitif et très compréhensible. Il doit permettre un accès direct aux actions les plus urgentes ou utiles. 
-* L'application doit être rapide et fonctionnelle. Utilisable sur ordinateur comme sur une tablette.
-* Le logo de l'application doit être simple et dans l'esprit médical.
-* Chaque page de l'application doit respecter des structures homogènes avec deux barres de navigation avec des boutons fixes à gauche et une barre de navigation générale en haut.  
+---
 
-**MVP Minimum Viable Product :**
-* Ce projet doit être conçu en plusieurs étapes. Première étape : possibilité de créer un utilisateur avec son numéro de dossier. L'attribuer à un médecin spécialiste. Avoir des rôles et des accès différents pour un médecin, une infirmière et l'administration.
-* Deuxième étape : possibilité d'ajouter des images et des documents au dossier patient. Amélioration de l'aspect visuel global du site. En cas d'opération, attribution d'un bloc opératoire, avec la possibilité d'ajouter l'information supplémentaire comme: le traitement donné pendant l'opération, attribution d'anesthésiologue pour ce patient, possibilité noter toutes les membres d'équipe qui a participé à l'opération. Attribuer une chambre de repos, suivi des soins, et service postopératoire (comme la nourriture ou les besoins personnalisés).
+## 🎯 Contexte et objectifs
 
-**Le planning et périmètre livrable :**
-* Le site d'hôpital doit être livré au début de juillet 2026.
-* Le planning sur Trello doit aider à avoir une vision claire sur le déroulement du développement.
+L'application doit permettre aux médecins, infirmiers et secrétaires de gérer les patients de manière centralisée afin de :
 
-## 2. Objectifs Fonctionnels
+- accéder rapidement aux informations d'un patient et à son emplacement (chambre, bloc opératoire) ;
+- **réduire l'usage du papier** et éviter la perte de documents ;
+- faciliter la coordination entre tous les membres de l'équipe ;
+- offrir une interface **simple, rapide**, utilisable sur ordinateur comme sur tablette.
 
-* Gestion des Utilisateurs : Création, modification et suppression de comptes pour toutes membres d'equipe par administrateur acridité. 
-* Gestion des Patients : Ajout, modification, suppression et visualisation des informations des patients.
-* Gestion des Traitements : Attribution de traitements personnalisés aux patients, possibilité de joindre des images IRM, et des notes au cours de soins.
-* Gestion des Chambres : gestion des chambres occupées par les patients, et leur suivi.
-* Attribution d'un Médecin Principal : Association de chaque patient à un médecin référent et son anesthésiologue en cas besoin.
-*  Gestion d'opération: attribuer aux patients le numéro du bloc opératoire lors d'opération avec l'heur début et la fin d'opération, le traitement prescrit pendant opération avec anesthésiologue ainsi que membres d'équipe qui a participé.
+L'accès est **strictement interne** : aucune inscription publique, les comptes sont créés uniquement par un administrateur.
 
-### 2.1. Gestion des Rôles et Permissions
+## ✨ Fonctionnalités
 
-* **Administrateur :**
+| Domaine | Description |
+|---|---|
+| **Utilisateurs** | Création, modification et suppression des comptes par l'administrateur, matricule personnel par membre de l'équipe, gestion des rôles |
+| **Dossiers patients** | Fiche médicale complète (identité, personne de confiance, numéro de dossier, médecin référent…), ajout / modification / suppression |
+| **Rendez-vous** | Rendez-vous de consultation et rendez-vous opératoires |
+| **Consultations** | Suivi des consultations par les médecins |
+| **Prescriptions** | Traitements personnalisés prescrits par le médecin, consultables par les infirmiers |
+| **Observations** | Notes de soins ajoutées par les infirmiers au dossier |
+| **Imagerie / documents** | Ajout d'images (IRM, scanner) et de documents au dossier patient |
+| **Chambres** | Attribution et suivi des chambres occupées |
+| **Blocs opératoires** | Attribution d'un bloc avec heure de début et de fin, anesthésiste, équipe participante, traitement pendant l'opération |
+| **Spécialités** | Gestion des spécialités des médecins et infirmiers |
 
-  * Peut créer, modifier et supprimer des utilisateurs.
-  * Peut gérer les rôles (permissions) des utilisateurs.
-  * Il ne peut pas voir dossier de patient, il ne peut faire aucun action avec.
+## 👥 Rôles et permissions
 
-* **Secretaire:**
+| Rôle | Droits principaux |
+|---|---|
+| **Administrateur** | Crée, modifie et supprime les utilisateurs ; gère les rôles. **N'a aucun accès aux dossiers patients.** |
+| **Secrétaire** | Crée les patients et modifie leurs informations, gère chambres, rendez-vous et rendez-vous opératoires, consulte le compte rendu postopératoire et le document de sortie. Ne peut ni prescrire ni modifier le dossier médical. |
+| **Médecin** | Crée, modifie et consulte les fiches médicales de ses patients, ajoute des images, prescrit et modifie les soins, gère le post-opératoire, rédige les comptes rendus. Ne peut pas supprimer un compte patient ni modifier ses informations personnelles. |
+| **Infirmier** | Ajoute des observations, consulte prescriptions et traitements. Ne peut rien modifier ni supprimer d'autre. |
+| **Lecture seule** | Consultation des informations générales uniquement. |
 
-    * créer le compte patient, modifier l'information du client
-    * attribuer ou modifier la chambre 
-    * donner ou supprimer un rendez-vous
-    * donner ou supprimer un rendez-vous operatoire
-    * avoir l'accès pour  visualiser le compte rendu postopératoire et le document de sortie
-    * il ne peut pas modifier ou supprimer le dossier médical ou prescrire le traitement.
+Les permissions sont appliquées côté serveur via les attributs `#[IsGranted]` de Symfony sur chaque contrôleur.
 
-* **Médecin :**
+## 🛠 Stack technique
 
-  * Peut créer, modifier et consulter les fiches médicales des patients à lui associés.
-  * Peut ajouter des images IRM aux fiches médicales.
-  * Peut consulter les informations des patients.
-  * Peux prescrire, modifier le soin médical.
-  * Attribuer ou modifier la poste operatoire.
-  * Peux rediger un comte rendue.
-  * Il ne peut pas supprimer le compte de client ou modifier l'information personnelle de client.
+- **Backend :** PHP ≥ 8.4, [Symfony 8.1](https://symfony.com/)
+- **ORM / migrations :** Doctrine ORM 3 + Doctrine Migrations
+- **Base de données :** PostgreSQL (MySQL possible)
+- **Frontend :** Twig, Bootstrap 5, Font Awesome, JavaScript (Stimulus, Turbo)
+- **Build assets :** Webpack Encore
+- **Authentification :** Symfony Security (authenticator personnalisé)
+- **Conteneurisation :** Docker Compose (base de données)
 
-* **Infirmier :**
+## 🚀 Installation
 
-  * Peut ajouter des observations aux fiches médicales.
-  * Peux lire la prescription médicale, le traitement.
-  * Il ne peut pas modifier ou supprimer l'information de client
+### Prérequis
 
+- PHP ≥ 8.4 avec les extensions `ctype`, `iconv`, `pdo_pgsql`
+- [Composer](https://getcomposer.org/)
+- Node.js et npm
+- PostgreSQL 16 (ou via Docker)
+- [Symfony CLI](https://symfony.com/download) (optionnel, recommandé)
 
-* **Utilisateur Lecture Seule :**
+### Étapes
 
-  * Peut uniquement consulter les informations générales.
-  
-### 2.2. Gestion des Patients
+```bash
+# 1. Cloner le dépôt
+git clone <url-du-depot>
+cd Hopital_de_la_main
 
-* Chaque patient a une fiche médicale comprenant les informations suivantes :
+# 2. Installer les dépendances
+composer install
+npm install
 
-  * Nom, prénom, date de naissance, adresse, numéro de téléphone.
-  * Nom, prénom, adresse, numéro de téléphone d'une personne de confiance.
-  * Numéro de dossier.
-  * Médecin principal.
-  * Traitement personnalisé.
-  * Chambre attribuée.
-  * Bloc opératoire attribué.
-  * Observations de l’infirmier.
-  * Images IRM et doccument (téléchargeables par les médecins uniquement).
+# 3. Configurer l'environnement
+#    Créer un fichier .env.local et y définir la connexion à la base :
+#    DATABASE_URL="postgresql://USER:PASSWORD@127.0.0.1:5432/hopital?serverVersion=16&charset=utf8"
 
-### 2.3. Gestion des Médecins
+# 4. (Optionnel) Lancer PostgreSQL avec Docker
+docker compose up -d database
 
-* Chaque médecin a une fiche de profil comprenant les informations suivantes :
+# 5. Créer la base et appliquer les migrations
+php bin/console doctrine:database:create
+php bin/console doctrine:migrations:migrate
 
-  * Nom, prénom, date de naissance, téléphone. 
-  * Profession, Spécialisation.
-  * Patients attaché à lui.
+# 6. (Optionnel) Charger les données de démonstration
+php bin/console doctrine:fixtures:load
 
-### 2.4. Gestion des Infirmiers
+# 7. Compiler les assets
+npm run dev        # ou: npm run watch / npm run build (production)
 
-* Chaque infirmier a une fiche de profil comprenant les informations suivantes :
+# 8. Lancer le serveur
+symfony server:start
+# ou: php -S localhost:8000 -t public
+```
 
-  * Nom, prénom, date de naissance, téléphone
-  * Spécialisation.
+L'application est alors disponible sur `http://localhost:8000`.
 
-## 3. Sécurité
+## 🔑 Comptes de démonstration
 
-* Accès au application uniquement par authentification sécurisée.
-* Aucune possibilité de créer un compte par User.
-* Accès restreint uniquement au réseau de l’hôpital.
-* Absence de possibilité de téléchargement de dossiers.
-* Les données des patients doivent être protégées par un système de permissions.
+Les fixtures (`src/DataFixtures/`) créent un administrateur, des médecins, des infirmiers, des secrétaires, des patients, des chambres et des salles opératoires.
+Consultez les fichiers de fixtures pour les identifiants de test, et **changez-les impérativement avant toute mise en production**.
 
-## 4. Architecture du Système
+## 📁 Structure du projet
 
-* Frontend : JavaScript, HTML, CSS (avec Twig pour les templates).
-* Backend : PHP avec Symfony.
-* Base de Données : MySQL ou PostgreSQL.
-* Hébergement : Serveur externe sécurisé.
+```
+├── assets/             # JS (Stimulus) et CSS
+├── config/             # Configuration Symfony (sécurité, services, Encore…)
+├── migrations/         # Migrations Doctrine
+├── public/             # Point d'entrée web, images, uploads
+├── src/
+│   ├── Controller/     # Chambre, Consultation, DossierPatient, Image, Observation,
+│   │                   # Prescription, RDV, RdvOperatoire, SalleOperatoire, Specialite, User…
+│   ├── DataFixtures/   # Jeux de données de démonstration
+│   ├── Entity/         # Entités Doctrine
+│   ├── Form/           # Formulaires Symfony
+│   ├── Repository/     # Repositories Doctrine
+│   └── Security/       # Authentification
+├── templates/          # Vues Twig
+└── tests/              # Tests
+```
 
-## 5. Maquette et Interface
+## 🔒 Sécurité
 
-* Interface utilisateur intuitive pour une prise en main rapide, sans encombrement.
-* Design adapté aux besoins médicaux: claire avec les couleurs intuitif (verte pour validation ou normalite,  orange pour attirer l'attention, rouge pour danger ou suppression, bleu pour les actions notre. style global couleur blanc) 
-* Accès rapide par les boutons aux patients, traitements et chambres.
-* Charte graphique incluse.
+- Accès à l'application **uniquement après authentification**.
+- **Aucune inscription libre** : les comptes sont créés par l'administrateur.
+- Contrôle d'accès par rôles sur chaque route.
+- Mots de passe hachés (Symfony `auto` hasher).
+- Pas de téléchargement des dossiers ; images et documents téléchargeables par les médecins uniquement.
+- Déploiement prévu pour un **accès restreint au réseau de l'hôpital**.
 
-## 6. Gestion de Projet, Planning
+## 🎨 Charte graphique
 
-* Développeur : Dmytriyev Savva
-* Responsable du projet : Maria 
-* Durée estimée : 2,5 mois
-* Phases : Préparation, Conception, Développement, Test.
-* Suivie de planning vie Trello disponible.
+Interface claire et calme, pensée pour le milieu médical :
+
+| Couleur | Usage |
+|---|---|
+| ⚪ Blanc | Fond général |
+| 🔵 Bleu | Actions neutres |
+| 🟢 Vert | Validation / normalité |
+| 🟠 Orange | Attirer l'attention |
+| 🔴 Rouge | Danger / suppression |
+
+Structure homogène sur toutes les pages : barre de navigation générale en haut et barre latérale fixe à gauche. Responsive (ordinateur et tablette).
+
+## 🗺 Feuille de route (MVP)
+
+**Étape 1**
+- [x] Création d'un utilisateur avec numéro de dossier
+- [x] Attribution à un médecin spécialiste
+- [x] Rôles et accès différenciés (médecin, infirmier, secrétaire, administrateur)
+
+**Étape 2**
+- [x] Ajout d'images et de documents au dossier patient
+- [x] Attribution de blocs opératoires, anesthésiste et équipe
+- [x] Gestion des chambres
+- [ ] Suivi post-opératoire (soins, alimentation, besoins personnalisés)
+- [ ] Compte rendu postopératoire et document de sortie
+- [ ] Amélioration visuelle globale
+
+> Cochez/ajustez cette liste selon l'état réel d'avancement.
+
+## 📆 Gestion de projet
+
+- **Durée estimée :** 2,5 mois (Préparation, Conception, Développement, Test)
+- **Livraison prévue :** début juillet 2026
+- **Suivi :** tableau Trello
+
+## 📄 Licence
+
+Projet propriétaire, usage interne uniquement. Tous droits réservés.
