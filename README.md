@@ -2,10 +2,6 @@
 
 Application web **interne** de gestion des patients d'un hôpital spécialisé dans les pathologies de la main : dossiers patients, rendez-vous, opérations, prescriptions, imagerie et chambres, le tout centralisé et protégé par un système de rôles.
 
-> Projet réalisé dans le cadre de la formation **CDA (Concepteur Développeur d'Applications)**.
-> Développeur : **Dmytriyev Savva** · Responsable du projet : **Maria**
-
----
 
 ## 📋 Sommaire
 
