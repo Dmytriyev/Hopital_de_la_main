@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Specialite{% endblock %}
+
+{% block body %}
+    <h1>Specialite</h1>
+    {% if app.user is not null %}
+
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>Specialisation</th>
+                    <td>{{ specialite.specialisation }}</td>
+                </tr>
+                <tr>
+                    <th>Détails</th>
+                    <td>{{ specialite.details }}</td>
+                </tr>
+                <tr>
+                    <th>Date de délivrance</th>
+                    <td>{{ specialite.dateDelivrance ? specialite.dateDelivrance|date('d/m/Y') : '' }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <a type="button" class="btn btn-outline-primary" href="{{ path('app_specialite_index') }}">Retour à la liste</a>
+        {% if is_granted('ROLE_MEDECIN') %}
+            <a type="button" class="btn btn-outline-warning" href="{{ path('app_specialite_edit', {'id': specialite.id}) }}">Modifier</a>
+        {% endif %}
+
+        {{ include('specialite/_delete_form.html.twig') }}
+    {% endif %}
+{% endblock %}

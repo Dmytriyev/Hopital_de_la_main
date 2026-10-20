@@ -1,0 +1,6 @@
+<form method="post" action="{{ path('app_dossier_patient_delete', {'id': dossier_patient.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce dossier du patient {{ dossier_patient.numeroDossier }}?');">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ dossier_patient.id) }}">
+    {% if is_granted('ROLE_MEDECIN') or is_granted('ROLE_SECRETAIRE') %}
+        <button class="btn btn-outline-danger" type="submit">Supprimer</button>
+    {% endif %}
+</form>

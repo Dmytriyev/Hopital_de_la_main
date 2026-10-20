@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des prescriptions{% endblock %}
+
+{% block body %}
+    <h1>Liste des prescriptions</h1>
+	{% if app.user is not null %}
+        {% if is_granted('ROLE_MEDECIN') %}
+            <a type="button" class="btn btn-outline-success" href="{{ path('app_prescription_new') }}">Créer une nouvelle Prescription</a>
+	    {% endif %}        
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Traitement</th>
+                <th>Durée du traitement</th>
+                <th>Détails</th>
+                <th>Créé le</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for prescription in prescriptions %}
+            <tr>
+                <td>{{ prescription.traitement }}</td>
+                <td>{{ prescription.dureeTraitement }}</td>
+                <td>{{ prescription.details }}</td>
+                <td>{{ prescription.createdAt ? prescription.createdAt|date('d/m/Y H:i') : '' }}</td>
+                <td>
+                    <a type="button" class="btn btn-outline-primary" href="{{ path('app_prescription_show', {'id': prescription.id}) }}">Afficher</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">Aucun enregistrement trouvé</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+	{% endif %}
+
+{% endblock %}

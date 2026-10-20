@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle Consultation{% endblock %}
+
+{% block body %}
+    <h1>Créer nouvelle Consultation</h1>
+	{% if app.user is not null %}
+
+    {{ include('consultation/_form.html.twig') }}
+
+    <a type="button" class="btn btn-outline-primary" href="{{ path('app_consultation_index') }}">Retour à la liste</a>
+	{% endif %}
+{% endblock %}

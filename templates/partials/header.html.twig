@@ -1,0 +1,151 @@
+<!-- Navbar -->
+<nav
+	id="nav"
+	class="navbar navbar-expand-lg bg-body-Primary "
+>
+	<!-- Container wrapper -->
+	<div
+		id="nav-container"
+		class="d-flex align-items-center "
+	>
+		<!-- Navbar brand -->
+		<a class="navbar-brand me-2 " href="{{ path('app_home') }}">
+			<img id="logo" src="{{ asset('Image/logo-hopital-main.jpg') }}" height="40" alt="Logo"/>
+		</a>
+
+		<!-- Toggle button -->
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarButtonsExample" aria-controls="navbarButtonsExample" aria-expanded="false" aria-label="Toggle navigation">
+			Hopital de la Main</button>
+		<!-- Collapsible wrapper -->
+		<div
+			class="collapse navbar-collapse"
+			id="navbarButtonsExample"
+		>
+			<!-- Left links -->
+			<ul id="logo-text" class="navbar-nav me-auto text-secondary-emphasis mb-2 mb-lg-0 ">
+				<li class="nav-item">
+					<a id="nom_site" class=" nav-link" href="{{ path('app_home') }}">Hopital de la Main</a>
+				</li>
+			</ul>
+			<!-- Left links -->
+			<div id="dropdown" class="d-flex align-items-center  position-absolute top-1 end-0">
+				{% if app.user %}
+					<div class="nav-item px-4 me-lg-0 dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Plus Functions</a>
+						<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+							<li>
+								<a class="dropdown-item" href="{{ path('app_chambre_index') }}">Chambres patients</a>
+							</li>
+							<li>
+								<a class="dropdown-item" href="{{ path('app_salle_operatoire_index') }}">Salles opératoires</a>
+							</li>
+							{% if is_granted("ROLE_MEDECIN") %}
+								<li>
+									<a class="dropdown-item" href="{{ path('app_rdv_index') }}">Rendez-vous</a>
+								</li>
+								<li>
+									<a class="dropdown-item" href="{{ path('app_rdv_operatoire_index') }}">Rendez-vous opératoire</a>
+								</li>
+								<li>
+									<a class="dropdown-item" href="{{ path('app_dossier_patient_index') }}">Dossiers patients</a>
+								</li>
+								<li>
+									<a class="dropdown-item" href="{{ path('app_consultation_index') }}">Consultations</a>
+								</li>
+								<li>
+									<a class="dropdown-item" href="{{ path('app_prescription_index') }}">Prescriptions</a>
+								</li>
+								<li>
+									<a class="dropdown-item" href="{{ path('app_image_index') }}">Images medical</a>
+								</li>
+								<li>
+									<a class="dropdown-item" href="{{ path('app_observation_index') }}">Observations</a>
+								</li>
+								<li>
+									<a class="dropdown-item" href="{{ path('app_user_index') }}">Equipe Médicale</a>
+								</li>
+								<li>
+									<a class="dropdown-item" href="{{ path('app_specialite_index') }}">Spécialités Médicales</a>
+								</li>
+							{% endif %}
+							{% if is_granted("ROLE_SECRETAIRE") %}
+								<li>
+									<a class="dropdown-item" href="{{ path('app_rdv_index') }}">Rendez-vous</a>
+								</li>
+								<li>
+									<a class="dropdown-item" href="{{ path('app_rdv_operatoire_index') }}">Rendez-vous opératoire</a>
+								</li>
+								<li>
+									<a class="dropdown-item" href="{{ path('app_dossier_patient_index') }}">Dossiers patients</a>
+								</li>
+								<li>
+									<a class="dropdown-item" href="{{ path('app_image_index') }}">Images medical</a>
+								</li>
+								<li>
+									<a class="dropdown-item" href="{{ path('app_prescription_index') }}">Prescriptions</a>
+								</li>
+								<li>
+									<a class="dropdown-item" href="{{ path('app_chambre_index') }}">Chambres</a>
+								</li>
+								<li>
+									<a class="dropdown-item" href="{{ path('app_salle_operatoire_index') }}">Salles opératoires</a>
+								</li>
+								<li>
+									<a class="dropdown-item" href="{{ path('app_user_index') }}">Equipe Médicale</a>
+								</li>
+							{% endif %}
+							{% if is_granted("ROLE_INFERMIER") %}
+								<li>
+									<a class="dropdown-item" href="{{ path('app_dossier_patient_index') }}">Dossiers patients</a>
+								</li>
+								<li>
+									<a class="dropdown-item" href="{{ path('app_observation_index') }}">Observations</a>
+								</li>
+																<li>
+									<a class="dropdown-item" href="{{ path('app_chambre_index') }}">Chambres</a>
+								</li>
+								<li>
+									<a class="dropdown-item" href="{{ path('app_salle_operatoire_index') }}">Salles opératoires</a>
+								</li>
+							{% endif %}
+							{% if is_granted("ROLE_DIRECTION") %}
+								<li>
+									<a class="dropdown-item" href="{{ path('app_user_index') }}">Equipe Médicale</a>
+								</li>
+								<li>
+									<a class="dropdown-item" href="{{ path('app_rdv_index') }}">Rendez-vous</a>
+								</li>
+								<li>
+									<a class="dropdown-item" href="{{ path('app_rdv_operatoire_index') }}">Rendez-vous opératoire</a>
+								</li>
+							{% endif %}
+							{% if is_granted("ROLE_ADMIN") %}
+								<li>
+									<a class="dropdown-item" href="{{ path('app_register') }}">Inscrire membre equipe</a>
+								</li>
+								<li>
+									<a class="dropdown-item" href="{{ path('app_user_index') }}">Equipe Médicale</a>
+								</li>
+								<li>
+									<a class="dropdown-item" href="{{ path('app_specialite_index') }}">Spécialités Médicales</a>
+								</li>
+							{% endif %}
+							<li><hr class="dropdown-divider"/></li>
+							<li>
+								<a class="dropdown-item" href="{{ path('app_logout') }}">Se deconnecter</a>
+							</li>
+				{% else %}
+					<li>
+						<a class="dropdown-item" href="{{ path('app_login') }}">Se connecter</a>
+					</li>
+				{% endif %}
+
+				</ul>
+			</div>
+		</div>
+	</div>
+	<!-- Collapsible wrapper -->
+	</div>
+	<!-- Container wrapper -->
+</nav>
+<!-- Navbar -->

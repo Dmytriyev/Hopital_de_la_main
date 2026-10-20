@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouveau rendez-vous{% endblock %}
+
+{% block body %}
+    <h1>Créer un nouveau rendez-vous</h1>
+	{% if app.user is not null %}
+    {{ include('rdv/_form.html.twig') }}
+
+    <a type="button" class="btn btn-outline-primary" href="{{ path('app_rdv_index') }}">Retour à la liste</a>
+	{% endif %}
+{% endblock %}

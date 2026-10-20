@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvel Utilisateur{% endblock %}
+
+{% block body %}
+    <h1>Créer un nouvel utilisateur</h1>
+	{% if app.user is not null %}
+
+    {{ include('user/_form.html.twig') }}
+
+    <a type="button" class="btn btn-outline-primary" href="{{ path('app_user_index') }}">Retour à la liste</a>
+	{% endif %}
+{% endblock %}

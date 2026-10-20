@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Salle Opératoire{% endblock %}
+
+{% block body %}
+    <h1>Salle Opératoire</h1>
+	{% if app.user is not null %}
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Numero de salle opératoire</th>
+                <td>{{ salle_operatoire.numeroSalle }}</td>
+            </tr>
+            <tr>
+                <th>Heure de l'opération</th>
+                <td>{{ salle_operatoire.heurOperation ? salle_operatoire.heurOperation|date('H:i') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Durée de l'opération</th>
+                <td>{{ salle_operatoire.dureeOperation ? salle_operatoire.dureeOperation|date('H:i') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Détails</th>
+                <td>{{ salle_operatoire.details }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a type="button" class="btn btn-outline-primary" href="{{ path('app_salle_operatoire_index') }}">Retour à la liste</a>
+    {% if is_granted('ROLE_SECRETAIRE') or is_granted('ROLE_MEDECIN') %}
+        <a type="button" class="btn btn-outline-warning" href="{{ path('app_salle_operatoire_edit', {'id': salle_operatoire.id}) }}">Modifier</a>
+    {% endif %}
+
+    {{ include('salle_operatoire/_delete_form.html.twig') }}
+	{% endif %}
+{% endblock %}

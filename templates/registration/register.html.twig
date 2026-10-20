@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription des Membres de l'Hôpital{% endblock %}
+
+{% block body %}
+    <h1>Inscription des Membres de l'Hôpital</h1>
+	{% if app.user is not null %}
+    {% if is_granted('ROLE_ADMIN') %}
+    {{ form_errors(registrationForm) }}
+
+    {{ form_start(registrationForm) }}
+    {{ form_row(registrationForm.email, {
+        label: 'Email',
+    }) }}
+	{{ form_row(registrationForm.sexe,{
+        label : 'Sexe',
+    }) }}
+	{{ form_row(registrationForm.nom,{
+        label: 'Nom',
+    }) }}
+	{{ form_row(registrationForm.prenom,{
+        label: 'Prénom',
+    }) }}
+	{{ form_row(registrationForm.dateNaissance, {
+        label: 'Date de naissance',
+    }) }}
+	{{ form_row(registrationForm.telephone, {
+        label: 'Téléphone',
+    }) }}       
+    	{{ form_row(registrationForm.adresse, {
+        label: 'Adresse',
+    }) }}
+	{{ form_row(registrationForm.codePostale, {
+        label: 'Code postal',
+    }) }}
+	{{ form_row(registrationForm.post, {
+        label: 'Poste occupé',
+    }) }}
+	{{ form_row(registrationForm.roles, {
+        label: 'Rôles',
+    }) }} 
+    {{ form_row(registrationForm.mes_specialites, {
+        label: 'Spécialité (pour les médecins)',
+    }) }}
+    {{ form_row(registrationForm.agreeTerms) }}
+
+        <button type="submit" type="button" class="btn btn-outline-primary">S'inscrire</button>
+    {{ form_end(registrationForm) }}
+    {% endif %}
+	{% endif %}
+{% endblock %}

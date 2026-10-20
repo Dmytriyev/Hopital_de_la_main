@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle Chambre{% endblock %}
+
+{% block body %}
+    <h1>Nouvelle Chambre</h1>
+	{% if app.user is not null %}
+    {{ include('chambre/_form.html.twig') }}
+
+    <a type="button" class="btn btn-outline-primary" href="{{ path('app_chambre_index') }}">Retour à la liste</a>
+	{% endif %}
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle Salle Opératoire{% endblock %}
+
+{% block body %}
+    <h1>Créer une nouvelle salle opératoire</h1>
+	{% if app.user is not null %}
+
+    {{ include('salle_operatoire/_form.html.twig') }}
+
+    <a type="button" class="btn btn-outline-primary" href="{{ path('app_salle_operatoire_index') }}">Retour à la liste</a>
+	{% endif %}
+{% endblock %}

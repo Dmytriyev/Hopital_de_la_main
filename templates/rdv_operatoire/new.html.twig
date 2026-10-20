@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouveau Rendez-vous Opératoire{% endblock %}
+
+{% block body %}
+    <h1>Créer un nouveau rendez-vous opératoire</h1>
+	{% if app.user is not null %}
+
+    {{ include('rdv_operatoire/_form.html.twig') }}
+
+    <a type="button" class="btn btn-outline-primary" href="{{ path('app_rdv_operatoire_index') }}">Retour à la liste</a>
+	{% endif %}
+{% endblock %}

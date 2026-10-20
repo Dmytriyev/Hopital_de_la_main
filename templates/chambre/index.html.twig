@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Chambres{% endblock %}
+
+{% block body %}
+    <h1>Liste des Chambres</h1>
+    {% if app.user is not null %}
+        {% if is_granted('ROLE_MEDECIN') or is_granted('ROLE_SECRETAIRE') %}
+            <a type="button" class="btn btn-outline-success" href="{{ path('app_chambre_new') }}">Créer une nouvelle chambre</a>
+        {% endif %}
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Numéro de Chambre</th>
+                    <th>Type de Chambre</th>
+                    <th>Occupation</th>
+                    <th>Durée d'Occupation</th>
+                    <th>Nom Patient</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for chambre in chambres %}
+                    <tr>
+                        <td>{{ chambre.numeroChambre }}</td>
+                        <td>{{ chambre.typeChambre ? 'Privee' : 'Publique' }}</td>
+                        <td>{{ chambre.dureeOccupation and chambre.dureeOccupation|date('U') > 0 ? 'Oui' : 'Non' }}</td>
+                        <td>{{ chambre.dureeOccupation ? chambre.dureeOccupation|date('H:i') : '' }}</td>
+                        <td>{{ chambre.rdvOperatoires is not empty ? chambre.rdvOperatoires|map(rdv => rdv.patient ? rdv.patient.nom ~ ' ' ~ rdv.patient.prenom : null)|filter(nom => nom is not null)|join(', ') : '-' }}</td>
+                        <td>
+                            <a type="button" class="btn btn-outline-primary" href="{{ path('app_chambre_show', {'id': chambre.id}) }}">Voir</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="6">Aucun enregistrement trouvé</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock %}

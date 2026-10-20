@@ -1,0 +1,6 @@
+<form method="post" action="{{ path('app_specialite_delete', {'id': specialite.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette spécialité {{ specialite.specialisation }} ?');">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ specialite.id) }}">
+    {% if is_granted('ROLE_MEDECIN') %}
+        <button type="submit" class="btn btn-outline-danger">Supprimer</button>
+    {% endif %}
+</form>

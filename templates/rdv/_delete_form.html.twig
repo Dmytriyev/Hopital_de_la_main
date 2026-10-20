@@ -1,0 +1,6 @@
+<form method="post" action="{{ path('app_rdv_delete', {'id': rdv.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce rendez-vous prévu à {{ rdv.dateRdv ? rdv.dateRdv|date('d/m/Y') : 'date inconnue' }} à {{ rdv.heurRdv ? rdv.heurRdv|date('H:i') : 'heure inconnue' }}  ?');">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ rdv.id) }}">
+    {% if is_granted('ROLE_SECRETAIRE') or is_granted('ROLE_MEDECIN') %}
+        <button class="btn btn-outline-danger" type="submit">Supprimer</button>
+    {% endif %}
+</form>

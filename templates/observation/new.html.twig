@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle Observation{% endblock %}
+
+{% block body %}
+    <h1>Créer une nouvelle observation</h1>
+	{% if app.user is not null %}
+
+    {{ include('observation/_form.html.twig') }}
+
+    <a type="button" class="btn btn-outline-primary" href="{{ path('app_observation_index') }}">Retour à la liste</a>
+	{% endif %}
+{% endblock %}

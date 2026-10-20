@@ -1,0 +1,30 @@
+<div>
+	<div>
+		{% if status_code == 404 %}
+			<h1>Erreur
+				{{status_code}}</h1>
+			<p class="text-5xl text-center mt-5 mb-5">La page n'est pas cree</p>
+		{% endif %}
+	</div>
+	<div>
+		{% if status_code == 400 %}
+			<h1>Erreur
+				{{status_code}}</h1>
+			<p class="text-5xl text-center mt-5 mb-5">La requete est incorrecte</p>
+		{% endif %}
+	</div>
+	<div>
+		{% if status_code == 500 %}
+			<h1>Erreur
+				{{status_code}}</h1>
+			<p class="text-5xl text-center mt-5 mb-5">Une erreur interne est survenue</p>
+		{% endif %}
+	</div>
+	<div>
+		{% if status_code == 403 %}
+			<h1>Erreur
+				{{status_code}}</h1>
+			<p class="text-5xl text-center mt-5 mb-5">Acces interdit</p>
+		{% endif %}
+	</div>
+</div>

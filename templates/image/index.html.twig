@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Image index{% endblock %}
+
+{% block body %}
+    <h1>Liste des images</h1>
+    {% if app.user is not null %}
+        {% if is_granted('ROLE_MEDECIN') or is_granted('ROLE_SECRETAIRE') %}
+            <a type="button" class="btn btn-outline-success" href="{{ path('app_image_new') }}">Ajouter une nouvelle image</a>
+        {% endif %}
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nom de fichier</th>
+                    <th>Fichier image</th>
+                    <th>Dossier Patient</th>
+                    <th>Créé le</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for image in images %}
+                    <tr>
+                        <td>{{ image.fileName }}</td>
+                        <td>
+                            {% if image.imageFile and not (image.imageFile starts with '/') %}
+                                <img src="{{ asset('uploads/images/' ~ image.imageFile) }}" alt="{{ image.fileName }}" style="max-height: 80px;">
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                        <td>{{ image.imagePatient ? image.imagePatient.nom ~ ' ' ~ image.imagePatient.prenom : '-' }}</td>
+                        <td>{{ image.createdAt ? image.createdAt|date('d/m/Y H:i') : '' }}</td>
+                        <td>
+                            <a type="button" class="btn btn-outline-primary" href="{{ path('app_image_show', {'id': image.id}) }}">Voir</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="6">Aucun enregistrement trouvé</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock %}

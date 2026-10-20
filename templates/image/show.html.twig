@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Image{% endblock %}
+
+{% block body %}
+    <h1>Image</h1>
+    {% if app.user is not null %}
+
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>Nom de fichier</th>
+                    <td>{{ image.fileName }}</td>
+                </tr>
+                <tr>
+                    <th>Dossier Patient</th>
+                    <td>{{ image.imagePatient ? image.imagePatient.nom ~ ' ' ~ image.imagePatient.prenom : '-' }}</td>
+                </tr>
+                <tr>
+                    <th>Fichier image</th>
+                    <td>
+                        {% if image.imageFile and not (image.imageFile starts with '/') %}
+                            <a href="{{ asset('uploads/images/' ~ image.imageFile) }}" data-bs-toggle="modal" data-bs-target="#imageModal">
+                                <img src="{{ asset('uploads/images/' ~ image.imageFile) }}" alt="{{ image.fileName }}" style="max-height: 80px; cursor: pointer;">
+                            </a>
+
+                            {# Modal Bootstrap pour agrandir l'image #}
+                            <div class="modal fade" id="imageModal" tabindex="-1">
+                                <div class="modal-dialog modal-lg modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">{{ image.fileName }}</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                        </div>
+                                        <div class="modal-body text-center">
+                                            <img src="{{ asset('uploads/images/' ~ image.imageFile) }}" alt="{{ image.fileName }}" class="img-fluid">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% else %}
+                            <i class="fa-regular fa-image fa-2x me-2"></i>
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <th>Créé le</th>
+                    <td>{{ image.createdAt ? image.createdAt|date('d/m/Y H:i') : '' }}</td>
+                </tr>
+                <tr>
+                    <th>Mis à jour le</th>
+                    <td>{{ image.updatedAt ? image.updatedAt|date('d/m/Y H:i') : '' }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <a type="button" class="btn btn-outline-primary" href="{{ path('app_image_index') }}">Retour à la liste</a>
+
+        {% if is_granted('ROLE_MEDECIN') %}
+            <a type="button" class="btn btn-outline-warning" href="{{ path('app_image_edit', {'id': image.id}) }}">Modifier</a>
+        {% endif %}
+        {{ include('image/_delete_form.html.twig') }}
+    {% endif %}
+{% endblock %}

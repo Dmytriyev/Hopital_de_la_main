@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle Image{% endblock %}
+
+{% block body %}
+    <h1>Créer une nouvelle image</h1>
+	{% if app.user is not null %}
+    {{ include('image/_form.html.twig') }}
+
+    <a type="button" class="btn btn-outline-primary" href="{{ path('app_image_index') }}">Retour à la liste</a>
+	{% endif %}
+{% endblock %}

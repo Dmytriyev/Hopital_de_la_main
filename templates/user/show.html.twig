@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Utilisateur{% endblock %}
+
+{% block body %}
+    <h1>Utilisateur</h1>
+
+    	{% if app.user is not null %}
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Sexe</th>
+                <td>{{ user.sexe }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ user.nom }}</td>
+            </tr>
+            <tr>
+                <th>Prenom</th>
+                <td>{{ user.prenom }}</td>
+            </tr>
+            <tr>
+                <th>Date de Naissance</th>
+                <td>{{ user.dateNaissance ? user.dateNaissance|date('d/m/Y') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ user.email }}</td>
+            </tr>
+            <tr>
+                <th>Telephone</th>
+                <td>{{ user.telephone }}</td>
+            </tr>
+            <tr>
+                <th>Adresse</th>
+                <td>{{ user.adresse }}</td>
+            </tr>
+            <tr>
+                <th>Code Postal</th>
+                <td>{{ user.codePostale }}</td>
+            </tr>
+            <tr>
+                <th>Matricule</th>
+                <td>{{ user.matricule }}</td>
+            </tr>
+            <tr>
+                <th>Post</th>
+                <td>{{ user.post }}</td>
+            </tr>
+            {% if user.mesSpecialites is not empty %}
+            <tr>
+                <th>Spécialisations</th>
+                <td>
+                    {% for specialite in user.mesSpecialites %}
+                        <span class="badge bg-primary me-1">{{ specialite.specialisation }}</span>
+                    {% endfor %}
+                </td>
+            </tr>
+            {% endif %}
+            {% if 'ROLE_ADMIN' in app.user.roles %}
+            <tr>
+                <th>Roles</th>
+                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
+            </tr>
+            <tr>
+                <th>Crée le</th>
+                <td>{{ user.createdAt ? user.createdAt|date('d/m/Y') : '' }}</td>
+            </tr>
+            {% endif %}
+
+        </tbody>
+    </table>
+
+    <a type="button" class="btn btn-outline-primary" href="{{ path('app_user_index') }}">Retour à la liste d'equipe</a>
+        {% if is_granted('ROLE_ADMIN') %}
+        <a type="button" class="btn btn-outline-warning" href="{{ path('app_user_edit', {'id': user.id}) }}">Modifier</a>
+    {% endif %}
+
+    {{ include('user/_delete_form.html.twig') }}
+	{% endif %}
+{% endblock %}

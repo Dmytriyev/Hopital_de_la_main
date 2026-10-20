@@ -1,0 +1,26 @@
+{
+    "devDependencies": {
+        "@babel/core": "^7.17.0",
+        "@babel/preset-env": "^7.16.0",
+        "@symfony/webpack-encore": "^6.0.0",
+        "core-js": "^3.38.0",
+        "regenerator-runtime": "^0.13.9",
+        "webpack": "^5.72",
+        "webpack-cli": "^6.0.0"
+    },
+    "license": "UNLICENSED",
+    "private": true,
+    "scripts": {
+        "dev-server": "encore dev-server",
+        "dev": "encore dev",
+        "watch": "encore dev --watch",
+        "build": "encore production --progress"
+    },
+    "dependencies": {
+        "@fortawesome/fontawesome-free": "^7.3.0",
+        "@popperjs/core": "^2.11.8",
+        "@symfony/stimulus-bridge": "^4.0.1",
+        "@symfony/ux-turbo": "^3.2.0",
+        "bootstrap": "^5.3.8"
+    }
+}

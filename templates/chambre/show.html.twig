@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Chambre
+	{{ chambre.numeroChambre }}
+{% endblock %}
+
+{% block body %}
+	<h1>Chambre
+		{{ chambre.numeroChambre }}</h1>
+	{% if app.user is not null %}
+
+		<table class="table">
+			<tbody>
+				<tr>
+					<th>Numero de la Chambre</th>
+					<td>{{ chambre.numeroChambre }}</td>
+				</tr>
+				<tr>
+					<th>Nom du Patient</th>
+					<td>
+						{% for rdvOp in chambre.rdvOperatoires %}
+							{{ rdvOp.patient ? rdvOp.patient.nom ~ ' ' ~ rdvOp.patient.prenom : '' }}
+						{% endfor %}
+					</td>
+				</tr>
+				<tr>
+					<th>Type de la Chambre</th>
+					<td>{{ chambre.typeChambre ? 'Privee' : 'Publique' }}</td>
+				</tr>
+				<tr>
+					<th>Alimentation</th>
+					<td>{{ chambre.alimentation ? 'Spéciale' : 'Standard' }}</td>
+				</tr>
+				<tr>
+					<th>Durée d'Occupation</th>
+					<td>{{ chambre.dureeOccupation ? chambre.dureeOccupation|date('H:i') : '' }}</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<a type="button" class="btn btn-outline-primary" href="{{ path('app_chambre_index') }}">Retour à la liste</a>
+		{% if is_granted('ROLE_MEDECIN') or is_granted('ROLE_SECRETAIRE') %}
+			<a type="button" class="btn btn-outline-warning" href="{{ path('app_chambre_edit', {'id': chambre.id}) }}">Modifier</a>
+		{% endif %}
+
+		{{ include('chambre/_delete_form.html.twig') }}
+	{% endif %}
+{% endblock %}

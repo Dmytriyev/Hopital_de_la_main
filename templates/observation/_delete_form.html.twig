@@ -1,0 +1,7 @@
+<form method="post" action="{{ path('app_observation_delete', {'id': observation.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette observation {{ observation.id }} ?');">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ observation.id) }}">
+    {% if is_granted('ROLE_MEDECIN') %}
+        <button class="btn btn-outline-danger" type="submit">Supprimer</button>
+    {% endif %}
+
+</form>

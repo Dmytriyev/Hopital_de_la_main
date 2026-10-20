@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Consultations{% endblock %}
+
+{% block body %}
+    <h1>Liste des Consultations</h1>
+	{% if app.user is not null %}
+            {% if is_granted('ROLE_MEDECIN') %}
+            <a type="button" class="btn btn-outline-success" href="{{ path('app_consultation_new') }}">Créer nouvelle consultation</a>
+            {% endif %}
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Utilisateur</th>
+                <th>Patient</th>
+                <th>Créé le</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for consultation in consultations %}
+            <tr>
+                <td>{{ consultation.matricule }}</td>
+                <td>{{ consultation.patient ? consultation.patient.nom ~ ' ' ~ consultation.patient.prenom : '-' }}</td>
+                <td>{{ consultation.createdAt ? consultation.createdAt|date('d/m/Y H:i') : '' }}</td>
+                <td>
+                    <a type="button" class="btn btn-outline-primary" href="{{ path('app_consultation_show', {'id': consultation.id}) }}">Afficher</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">Aucun enregistrement trouvé</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+	{% endif %}
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Specialites{% endblock %}
+
+{% block body %}
+    <h1>Liste des Specialites</h1>
+    {% if app.user is not null %}
+        {% if is_granted('ROLE_MEDECIN') or is_granted('ROLE_ADMIN') %}
+            <a type="button" class="btn btn-outline-success" href="{{ path('app_specialite_new') }}">Créer une spécialité</a>
+        {% endif %}
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Specialisation</th>
+                    <th>Date de délivrance</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for specialite in specialites %}
+                    <tr>
+                        <td>{{ specialite.specialisation }}</td>
+                        <td>{{ specialite.dateDelivrance ? specialite.dateDelivrance|date('d/m/Y') : '' }}</td>
+                        <td>
+                            {% if is_granted('ROLE_MEDECIN') %}
+                                <a type="button" class="btn btn-outline-primary" href="{{ path('app_specialite_show', {'id': specialite.id}) }}">Afficher</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="4">Aucun enregistrement trouvé</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock %}

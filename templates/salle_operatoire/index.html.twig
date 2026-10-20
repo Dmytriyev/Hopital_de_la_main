@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}SalleOperatoire index{% endblock %}
+
+{% block body %}
+    <h1>SalleOperatoire index</h1>
+    {% if app.user is not null %}
+        {% if is_granted('ROLE_ADMIN') %}
+            <a type="button" class="btn mb-3 btn-outline-success" href="{{ path('app_salle_operatoire_new') }}">Créer salle opératoire</a>
+        {% endif %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Numero de salle opératoire</th>
+                    <th>Heure de l'opération</th>
+                    <th>Durée de l'opération</th>
+                    <th>Détails</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for salle_operatoire in salle_operatoires %}
+                    <tr>
+                        <td>{{ salle_operatoire.numeroSalle }}</td>
+                        <td>{{ salle_operatoire.heurOperation ? salle_operatoire.heurOperation|date('H:i') : '' }}</td>
+                        <td>{{ salle_operatoire.dureeOperation ? salle_operatoire.dureeOperation|date('H:i') ~ ' Heures' : '' }}</td>
+                        <td>{{ salle_operatoire.details }}</td>
+                        <td>
+                            <a type="button" class="btn btn-outline-primary" href="{{ path('app_salle_operatoire_show', {'id': salle_operatoire.id}) }}">Afficher</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="6">Aucun enregistrement trouvé</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
+{% endblock %}

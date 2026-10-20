@@ -1,0 +1,90 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Utilisateurs
+{% endblock %}
+
+{% block body %}
+	<h1>Liste des utilisateurs</h1>
+	<span
+		id="current-user-meta"
+		data-see-all="{{ (is_granted('ROLE_DIRECTION') or is_granted('ROLE_ADMIN')) ? '1' : '0' }}"
+		hidden
+	></span>
+
+	{# Boutons de filtrage #}
+	<div class="btn-group mb-3" role="group">
+		<button type="button" class="btn btn-primary active" id="btn-Tous" onclick="filtrer('Tous')">
+			Tous
+		</button>
+		<button type="button" class="btn btn-outline-primary" id="btn-Medecin" onclick="filtrer('Medecin')">
+			Medecin
+		</button>
+		<button type="button" class="btn btn-outline-primary" id="btn-Infirmier" onclick="filtrer('Infirmier')">
+			Infirmier
+		</button>
+		{# Masqué pour ROLE_INFERMIER et ROLE_SECRETAIRE #}
+		{% if not is_granted('ROLE_INFERMIER') and not is_granted('ROLE_SECRETAIRE') %}
+			<button type="button" class="btn btn-outline-primary" id="btn-Administration" onclick="filtrer('Administration')">
+				Administration
+			</button>
+		{% endif %}
+	</div>
+	<div class="btn mb-3">
+		{% if is_granted('ROLE_ADMIN') %}
+			<a type="button" class="btn btn-outline-success mb-3" href="{{ path('app_user_new') }}">Créer un utilisateur</a>
+		{% endif %}
+	</div>
+
+	{% if app.user is not null %}
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Sexe</th>
+					<th>Nom</th>
+					<th>Prénom</th>
+					<th>Téléphone</th>
+					<th>Poste</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for user in users %}
+					<tr data-type="{% if 'ROLE_MEDECIN' in user.roles %}Medecin{% elseif 'ROLE_INFERMIER' in user.roles %}Infirmier{% else %}Administration{% endif %}">
+						<td>{{ user.sexe }}</td>
+						<td>{{ user.nom }}</td>
+						<td>{{ user.prenom }}</td>
+						<td>{{ user.telephone }}</td>
+						<td>{{ user.post }}</td>
+						<td>
+							{% if 'ROLE_MEDECIN' in user.roles %}
+								<span class="badge bg-success">Medecin</span>
+							{% elseif 'ROLE_INFERMIER' in user.roles %}
+								<span class="badge bg-info">Infirmier</span>
+							{% elseif 'ROLE_SECRETAIRE' in user.roles %}
+								<span class="badge bg-warning">Secretaire</span>
+							{% elseif 'ROLE_DIRECTION' in user.roles %}
+								<span class="badge bg-danger">Directeur</span>
+							{% else %}
+								<span class="badge bg-secondary">Autre</span>
+							{% endif %}
+						</td>
+						<td>
+							<a href="{{ path('app_user_show', {'id': user.id}) }}" class="btn btn-secondary">Afficher</a>
+							{% if is_granted('ROLE_ADMIN') %}
+								<a href="{{ path('app_user_edit', {'id': user.id}) }}" class="btn btn-warning">Modifier</a>
+							{% endif %}
+						</td>
+					</tr>
+				{% else %}
+					<tr>
+						<td colspan="6">Aucun enregistrement trouvé</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	{% endif %}
+	{% block javascripts %}
+		{{ parent() }}
+		<script src="{{ asset('js/user-filter.js') }}"></script>
+	{% endblock %}
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Rendez-vous{% endblock %}
+
+{% block body %}
+    <h1>Liste des Rendez-vous</h1>
+    {% if app.user is not null %}
+        {% if is_granted('ROLE_SECRETAIRE') or is_granted('ROLE_MEDECIN') %}
+            <a type="button" class="btn btn-outline-success" href="{{ path('app_rdv_new') }}">Créer un nouveau rendez-vous</a>
+        {% endif %}
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nom du Patient</th>
+                    <th>Nom du Médecin</th>
+                    <th>Date du RDV</th>
+                    <th>Heure du RDV</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for rdv in rdvs %}
+                    <tr>
+                        <td>{{ rdv.patient ? rdv.patient.nom ~ ' ' ~ rdv.patient.prenom : '-' }}</td>
+                        <td>{{ rdv.medecin ? rdv.medecin.nom ~ ' ' ~ rdv.medecin.prenom : '-' }}</td>
+                        <td>{{ rdv.dateRdv ? rdv.dateRdv|date('d/m/Y') : '' }}</td>
+                        <td>{{ rdv.heurRdv ? rdv.heurRdv|date('H:i') : '' }}</td>
+                        <td>
+                            <a type="button" class="btn btn-outline-primary" href="{{ path('app_rdv_show', {'id': rdv.id}) }}">Voir</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="5">Aucun rendez-vous trouvé</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock %}

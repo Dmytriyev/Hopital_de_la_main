@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Dossiers Patients{% endblock %}
+
+{% block body %}
+    <h1>Liste des Dossiers Patients</h1>
+    {% if app.user is not null %}
+        {% if is_granted('ROLE_MEDECIN') or is_granted('ROLE_SECRETAIRE') %}
+            <a type="button" class="btn btn-outline-success" href="{{ path('app_dossier_patient_new') }}">Créer un nouveau dossier</a>
+        {% endif %}
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Numéro de Dossier</th>
+                    <th>Sexe</th>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Date de Naissance</th>
+                    <th>Téléphone</th>
+                    <th>Numéro de Sécurité Sociale</th>
+                    <th>Nom du Médecin Traitant</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for dossier_patient in dossier_patients %}
+                    <tr>
+                        <td>{{ dossier_patient.numeroDossier }}</td>
+                        <td>{{ dossier_patient.sexe }}</td>
+                        <td>{{ dossier_patient.nom }}</td>
+                        <td>{{ dossier_patient.prenom }}</td>
+                        <td>{{ dossier_patient.dateNaissance ? dossier_patient.dateNaissance|date('d/m/Y') : '' }}</td>
+                        <td>{{ dossier_patient.telephone }}</td>
+                        <td>{{ dossier_patient.numeroSecu }}</td>
+                        <td>{{ dossier_patient.nomMedecinTraitant ? dossier_patient.nomMedecinTraitant.nom ~ ' ' ~ dossier_patient.nomMedecinTraitant.prenom : '-' }}</td>
+                        <td>
+                            {% if is_granted('ROLE_MEDECIN') or is_granted('ROLE_SECRETAIRE') or is_granted('ROLE_INFERMIER') %}
+                                <a type="button" class="btn btn-outline-primary" href="{{ path('app_dossier_patient_show', {'id': dossier_patient.id}) }}">Afficher</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="9">Aucun enregistrement trouvé</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    {% endif %}
+{% endblock %}

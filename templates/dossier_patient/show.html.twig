@@ -1,0 +1,311 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dossier du Patient{% endblock %}
+
+{% block body %}
+    <h1>Dossier du Patient</h1>
+    {% if app.user is not null %}
+        <a type="button" class="btn btn-outline-primary" href="{{ path('app_dossier_patient_index') }}">Retour à la liste</a>
+
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>Sexe</th>
+                    <td>{{ dossier_patient.sexe }}</td>
+                </tr>
+                <tr>
+                    <th>Nom</th>
+                    <td>{{ dossier_patient.nom }}</td>
+                </tr>
+                <tr>
+                    <th>Prenom</th>
+                    <td>{{ dossier_patient.prenom }}</td>
+                </tr>
+                <tr>
+                    <th>Date de Naissance</th>
+                    <td>{{ dossier_patient.dateNaissance ? dossier_patient.dateNaissance|date('d/m/Y') : '' }}</td>
+                </tr>
+                <tr>
+                    <th>Adresse</th>
+                    <td>{{ dossier_patient.adresse }}</td>
+                </tr>
+                <tr>
+                    <th>Code Postale</th>
+                    <td>{{ dossier_patient.codePostale }}</td>
+                </tr>
+                <tr>
+                    <th>Téléphone</th>
+                    <td>{{ dossier_patient.telephone }}</td>
+                </tr>
+                <tr>
+                    <th>Numéro de Sécurité Sociale</th>
+                    <td>{{ dossier_patient.numeroSecu }}</td>
+                </tr>
+                <tr>
+                    <th>Médecin Traitant Principal</th>
+                    <td>{{ dossier_patient.nomMedecinTraitant ? dossier_patient.nomMedecinTraitant.nom ~ ' ' ~ dossier_patient.nomMedecinTraitant.prenom : '-' }}</td>
+                </tr>
+                <tr>
+                    <th>Nom de la Personne de Confiance</th>
+                    <td>{{ dossier_patient.nomConfiance }}</td>
+                </tr>
+                <tr>
+                    <th>Prénom de la Personne de Confiance</th>
+                    <td>{{ dossier_patient.prenomConfiance }}</td>
+                </tr>
+                <tr>
+                    <th>Téléphone de la Personne de Confiance</th>
+                    <td>{{ dossier_patient.telephoneConfiance }}</td>
+                </tr>
+                <tr>
+                    <th>Détails</th>
+                    <td>{{ dossier_patient.details }}</td>
+                </tr>
+                <tr>
+                    <th>Numéro de Dossier</th>
+                    <td>{{ dossier_patient.numeroDossier }}</td>
+                </tr>
+                <tr>
+                    <th>Créé le</th>
+                    <td>{{ dossier_patient.createdAt ? dossier_patient.createdAt|date('d/m/Y H:i') : '' }}</td>
+                </tr>
+                <tr>
+                    <th>Mis à jour le</th>
+                    <td>{{ dossier_patient.updatedAt ? dossier_patient.updatedAt|date('d/m/Y H:i') : '' }}</td>
+                </tr>
+            </tbody>
+        </table>
+        {% if is_granted('ROLE_MEDECIN') or is_granted('ROLE_SECRETAIRE') %}
+            <a type="button" class="btn btn-outline-warning" href="{{ path('app_dossier_patient_edit', {'id': dossier_patient.id}) }}">Modifier</a>
+        {% endif %}
+
+
+        {{ include('dossier_patient/_delete_form.html.twig') }}
+        <h2>Médecins associés</h2>
+        {% if is_granted('ROLE_MEDECIN') and dossier_patient.mesMedecins.contains(app.user) %}
+            <a type="button" class="btn btn-outline-primary btn-sm mb-2" href="{{ path('app_dossier_patient_modifier_medecin', {'patientId': dossier_patient.id}) }}">Modifier médecins</a>
+        {% endif %}
+        {% if dossier_patient.mesMedecins is not empty %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Prénom</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for medecin in dossier_patient.mesMedecins %}
+                        <tr>
+                            <td>{{ medecin.nom }}</td>
+                            <td>{{ medecin.prenom }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>Aucun médecin associé à ce dossier.</p>
+        {% endif %}
+
+        <h2>Consultations</h2>
+        {% if is_granted('ROLE_MEDECIN') %}
+            <a type="button" class="btn btn-outline-primary btn-sm mb-2" href="{{ path('app_consultation_new', {'patientId': dossier_patient.id}) }}">Nouvelle consultation</a>
+        {% endif %}
+        {% if dossier_patient.consultations is not empty or dossier_patient.prescriptions is not empty %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Créé par</th>
+                        <th>Compte rendu</th>
+                        <th>Prescription</th>
+                        <th>Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for consultation in dossier_patient.consultations %}
+                        <tr>
+                            <td>{{ consultation.mesConsultation ? consultation.mesConsultation.nom ~ ' ' ~ consultation.mesConsultation.prenom : '-' }}</td>
+                            <td>{{ consultation.compteRendu }}</td>
+                            <td>{{ consultation.prescriptions is not empty ? consultation.prescriptions|map(p => p.traitement)|join(', ') : '-' }}</td>
+                            <td>{{ consultation.createdAt ? consultation.createdAt|date('d/m/Y') : '-' }}</td>
+                            {% if is_granted('ROLE_MEDECIN') %}
+                                <td>
+                                    <a type="button" class="btn btn-outline-primary" href="{{ path('app_consultation_show', {'id': consultation.id}) }}">Voir</a>
+                                    <a type="button" class="btn btn-outline-secondary" href="{{ path('app_prescription_new', {'consultationId': consultation.id}) }}">+ Prescription</a>
+                                </td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>Aucune consultation enregistrée pour ce dossier.</p>
+        {% endif %}
+
+        <h2>Prescriptions</h2>
+        <p class="text-muted small">Pour ajouter une prescription <strong>"+ Prescription"</strong> sur la consultation concernée</p>
+        {% if dossier_patient.prescriptions is not empty %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Créé par</th>
+                        <th>Prescription</th>
+                        <th>Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for prescription in dossier_patient.prescriptions %}
+                        <tr>
+                            <td>{{ prescription.mesPrescriptions ? prescription.mesPrescriptions.mesConsultation.nom ~ ' ' ~ prescription.mesPrescriptions.mesConsultation.prenom : '-' }}</td>
+                            <td>{{ prescription.traitement }}</td>
+                            <td>{{ prescription.createdAt ? prescription.createdAt|date('d/m/Y') : '-' }}</td>
+                            {% if is_granted('ROLE_MEDECIN') or is_granted('ROLE_SECRETAIRE') %}
+                                <td>
+                                    <a type="button" class="btn btn-outline-primary" href="{{ path('app_prescription_show', {'id': prescription.id}) }}">Voir</a>
+                                </td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>Aucune prescription enregistrée pour ce dossier.</p>
+        {% endif %}
+
+
+        <h2>Observations</h2>
+        {% if is_granted('ROLE_MEDECIN') or is_granted('ROLE_INFERMIER') %}
+            <a type="button" class="btn btn-outline-primary btn-sm mb-2" href="{{ path('app_observation_new', {'patientId': dossier_patient.id}) }}">Nouvelle observation</a>
+        {% endif %}
+        {% if dossier_patient.observations is not empty %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Créé par</th>
+                        <th>Observation</th>
+                        <th>Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for observation in dossier_patient.observations %}
+                        <tr>
+                            <td>{{ observation.mesObservation ? observation.mesObservation.nom ~ ' ' ~ observation.mesObservation.prenom : '-' }}</td>
+                            <td>{{ observation.observation }}</td>
+                            <td>{{ observation.createdAt ? observation.createdAt|date('d/m/Y') : '-' }}</td>
+                            {% if is_granted('ROLE_MEDECIN') or is_granted('ROLE_INFERMIER') %}
+                                <td>
+                                    <a type="button" class="btn btn-outline-primary" href="{{ path('app_observation_show', {'id': observation.id}) }}">Voir</a>
+                                </td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>Aucune observation enregistrée pour ce dossier.</p>
+        {% endif %}
+
+        <h2>Rendez-vous</h2>
+        {% if is_granted('ROLE_MEDECIN') or is_granted('ROLE_SECRETAIRE') %}
+            <a type="button" class="btn btn-outline-primary btn-sm mb-2" href="{{ path('app_rdv_new', {'patientId': dossier_patient.id}) }}">Nouveau rendez-vous</a>
+        {% endif %}
+        {% if dossier_patient.mesRdvs is not empty %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Créé par</th>
+                        <th>Date</th>
+                        <th>Heure</th>
+                        <th>Médecin</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for rdv in dossier_patient.mesRdvs %}
+                        <tr>
+                            <td>{{ rdv.secretaire ? rdv.secretaire.nom ~ ' ' ~ rdv.secretaire.prenom : '-' }}</td>
+                            <td>{{ rdv.dateRdv ? rdv.dateRdv|date('d/m/Y') : '-' }}</td>
+                            <td>{{ rdv.heurRdv ? rdv.heurRdv|date('H:i') : '-' }}</td>
+                            <td>{{ rdv.medecin ? rdv.medecin.nom ~ ' ' ~ rdv.medecin.prenom : '-' }}</td>
+                            {% if is_granted('ROLE_MEDECIN') or is_granted('ROLE_SECRETAIRE') %}
+                                <td>
+                                    <a type="button" class="btn btn-outline-primary" href="{{ path('app_rdv_show', {'id': rdv.id}) }}">Voir</a>
+                                </td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>Aucun rendez-vous enregistré pour ce dossier.</p>
+        {% endif %}
+
+        <h2>Rendez-vous opératoires</h2>
+        {% if is_granted('ROLE_MEDECIN') or is_granted('ROLE_SECRETAIRE') %}
+            <a type="button" class="btn btn-outline-primary btn-sm mb-2" href="{{ path('app_rdv_operatoire_new', {'patientId': dossier_patient.id}) }}">Nouveau RDV opératoire</a>
+        {% endif %}
+        {% if dossier_patient.rdvOperatoires is not empty %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Créé par</th>
+                        <th>Date</th>
+                        <th>Heure</th>
+                        <th>Détails</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for rdvOp in dossier_patient.rdvOperatoires %}
+                        <tr>
+                            <td>{{ rdvOp.secretaire ? rdvOp.secretaire.nom ~ ' ' ~ rdvOp.secretaire.prenom : '-' }}</td>
+                            <td>{{ rdvOp.dateRdvOperatoire ? rdvOp.dateRdvOperatoire|date('d/m/Y') : '-' }}</td>
+                            <td>{{ rdvOp.heurRdvOperatoire ? rdvOp.heurRdvOperatoire|date('H:i') : '-' }}</td>
+                            <td>{{ rdvOp.details }}</td>
+                            {% if is_granted('ROLE_MEDECIN') or is_granted('ROLE_SECRETAIRE') %}
+                                <td>
+                                    <a type="button" class="btn btn-outline-primary" href="{{ path('app_rdv_operatoire_show', {'id': rdvOp.id}) }}">Voir</a>
+                                </td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>Aucun rendez-vous opératoire enregistré pour ce dossier.</p>
+        {% endif %}
+
+        <h2>Images</h2>
+        {% if is_granted('ROLE_MEDECIN') or is_granted('ROLE_SECRETAIRE') %}
+            <a type="button" class="btn btn-outline-primary btn-sm mb-2" href="{{ path('app_image_new', {'patientId': dossier_patient.id}) }}">Nouvelle image</a>
+        {% endif %}
+        {% if dossier_patient.images is not empty %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Nom du fichier</th>
+                        <th>Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for image in dossier_patient.images %}
+                        <tr>
+                            <td>{{ image.fileName }}</td>
+                            <td>{{ image.createdAt ? image.createdAt|date('d/m/Y') : '-' }}</td>
+                            {% if is_granted('ROLE_MEDECIN') or is_granted('ROLE_SECRETAIRE') %}
+                                <td>
+                                    <a type="button" class="btn btn-outline-primary" href="{{ path('app_image_show', {'id': image.id}) }}">Voir</a>
+                                </td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>Aucune image enregistrée pour ce dossier.</p>
+        {% endif %}
+    {% endif %}
+{% endblock %}

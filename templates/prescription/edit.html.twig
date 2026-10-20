@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier la Prescription{% endblock %}
+
+{% block body %}
+    <h1>Modifier la Prescription</h1>
+	{% if app.user is not null %}
+
+    {{ include('prescription/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+
+    <a type="button" class="btn btn-outline-primary" href="{{ path('app_prescription_index') }}">Retour à la liste</a>
+
+    {{ include('prescription/_delete_form.html.twig') }}
+	{% endif %}
+{% endblock %}

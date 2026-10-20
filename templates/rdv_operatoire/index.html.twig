@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}RdvOperatoire index{% endblock %}
+
+{% block body %}
+    <h1>Liste des Rendez-vous Opératoires</h1>
+    {% if app.user is not null %}
+        {% if is_granted('ROLE_SECRETAIRE') or is_granted('ROLE_MEDECIN') %}
+            <a type="button" class="btn btn-outline-success" href="{{ path('app_rdv_operatoire_new') }}">Créer un nouveau</a>
+        {% endif %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nom du Patient</th>
+                    <th>Nom du Médecin</th>
+                    <th>Date du Rendez-vous</th>
+                    <th>Heure du Rendez-vous</th>
+                    <th>Salle opératoire</th>
+                    <th>Chambre</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for rdv_operatoire in rdv_operatoires %}
+                    <tr>
+                        <td>{{ rdv_operatoire.patient ? rdv_operatoire.patient.nom ~ ' ' ~ rdv_operatoire.patient.prenom : '-' }}</td>
+                        <td>{% for medecin in rdv_operatoire.medecins %}{{ medecin.nom ~ ' ' ~ medecin.prenom }}{% if not loop.last %}, {% endif %}{% else %}-{% endfor %}</td>
+                        <td>{{ rdv_operatoire.dateRdvOperatoire ? rdv_operatoire.dateRdvOperatoire|date('d/m/Y') : '' }}</td>
+                        <td>{{ rdv_operatoire.heurRdvOperatoire ? rdv_operatoire.heurRdvOperatoire|date('H:i') : '' }}</td>
+                        <td>{{ rdv_operatoire.salleOperatoire ? rdv_operatoire.salleOperatoire.numeroSalle : '-' }}</td>
+                        <td>{{ rdv_operatoire.chambre ? rdv_operatoire.chambre.numeroChambre : '-' }}</td>
+                        <td>
+                            <a type="button" class="btn btn-outline-primary" href="{{ path('app_rdv_operatoire_show', {'id': rdv_operatoire.id}) }}">Voir</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="7">Aucun enregistrement trouvé</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock %}

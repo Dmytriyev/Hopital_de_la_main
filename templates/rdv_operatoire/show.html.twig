@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Rendez-vous Opératoire
+{% endblock %}
+
+{% block body %}
+	<h1>Rendez-vous Opératoire</h1>
+	{% if app.user is not null %}
+
+		<table class="table">
+			<tbody>
+				<tr>
+					<th>Patient</th>
+					<td>{{ rdv_operatoire.patient ? rdv_operatoire.patient.nom ~ ' ' ~ rdv_operatoire.patient.prenom : '-' }}</td>
+				</tr>
+				<tr>
+					<th>Médecin</th>
+					<td>{% for medecin in rdv_operatoire.medecins %}{{ medecin.nom ~ ' ' ~ medecin.prenom }}{% if not loop.last %}, {% endif %}{% else %}-{% endfor %}</td>
+				</tr>
+				<tr>
+					<th>Date du Rendez-vous</th>
+					<td>{{ rdv_operatoire.dateRdvOperatoire ? rdv_operatoire.dateRdvOperatoire|date('d/m/Y') : '' }}</td>
+				</tr>
+				<tr>
+					<th>Heure du Rendez-vous</th>
+					<td>{{ rdv_operatoire.heurRdvOperatoire ? rdv_operatoire.heurRdvOperatoire|date('H:i') : '' }}</td>
+				</tr>
+				<tr>
+					<th>Details</th>
+					<td>{{ rdv_operatoire.details }}</td>
+				</tr>
+				<tr>
+					<th>Chambre</th>
+					<td>{{ rdv_operatoire.chambre ? rdv_operatoire.chambre.numeroChambre : '-' }}</td>
+				</tr>
+				<tr>
+					<th>Salle opératoire</th>
+					<td>{{ rdv_operatoire.salleOperatoire ? rdv_operatoire.salleOperatoire.numeroSalle : '-' }}</td>
+				</tr>
+			</tbody>
+		</table>
+		<a type="button" class="btn btn-outline-primary" href="{{ path('app_rdv_operatoire_index') }}">Retour à la liste</a>
+		{% if is_granted('ROLE_SECRETAIRE') or is_granted('ROLE_MEDECIN') %}
+			<a type="button" class="btn btn-outline-warning" href="{{ path('app_rdv_operatoire_edit', {'id': rdv_operatoire.id}) }}">Modifier</a>
+		{% endif %}
+		{{ include('rdv_operatoire/_delete_form.html.twig') }}
+	{% endif %}
+{% endblock %}

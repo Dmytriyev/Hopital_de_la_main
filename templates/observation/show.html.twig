@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Observation
+{% endblock %}
+
+{% block body %}
+	<h1>Observation</h1>
+	{% if app.user is not null %}
+
+		<table class="table">
+			<tbody>
+				<tr>
+					<th>Créé le</th>
+					<td>{{ observation.createdAt ? observation.createdAt|date('d/m/Y H:i') : '' }}</td>
+				</tr>
+				<tr>
+					<th>Patient</th>
+					<td>{{ observation.patient ? observation.patient.nom ~ ' ' ~ observation.patient.prenom : '-' }}</td>
+				</tr>
+				<tr>
+					<th>Observation</th>
+					<td>{{ observation.observation }}</td>
+				</tr>
+				<tr>
+					<th>Matricule</th>
+					<td>{{ observation.matricule }}</td>
+				</tr>
+				<tr>
+					<th>Créé par</th>
+					<td>{{ observation.mesObservation ? observation.mesObservation.nom ~ ' ' ~ observation.mesObservation.prenom : '-' }}</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<a type="button" class="btn btn-outline-primary" href="{{ path('app_observation_index') }}">Retour à la liste</a>
+		{% if is_granted('ROLE_MEDECIN') %}
+			<a type="button" class="btn btn-outline-warning" href="{{ path('app_observation_edit', {'id': observation.id}) }}">Modifier</a>
+		{% endif %}
+		{{ include('observation/_delete_form.html.twig') }}
+	{% endif %}
+{% endblock %}

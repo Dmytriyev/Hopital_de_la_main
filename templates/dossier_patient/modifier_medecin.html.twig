@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier les médecins associés{% endblock %}
+
+{% block body %}
+    <h1>Modifier les médecins associés au dossier</h1>
+
+    {{ include('dossier_patient/_form.html.twig', {'button_label': 'Enregistrer'}) }}
+
+    <a type="button" class="btn btn-outline-primary"  href="{{ path('app_dossier_patient_show', {'id': dossier_patient.id}) }}">Retour au dossier</a>
+{% endblock %}

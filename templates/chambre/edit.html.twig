@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier Chambre{% endblock %}
+
+{% block body %}
+    <h1>Modifier Chambre</h1>
+
+	{% if app.user is not null %}
+    {{ include('chambre/_form.html.twig', {'button_label': 'Modifier'}) }}
+
+    <a type="button" class="btn btn-outline-primary" href="{{ path('app_chambre_index') }}">Retour à la liste</a>
+
+    {{ include('chambre/_delete_form.html.twig') }}
+	{% endif %}
+{% endblock %}

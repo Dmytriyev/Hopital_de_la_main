@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Rendez-vous{% endblock %}
+
+{% block body %}
+    <h1>Rendez-vous</h1>
+    {% if app.user is not null %}
+
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>Patient</th>
+                    <td>{{ rdv.patient ? rdv.patient.nom ~ ' ' ~ rdv.patient.prenom : '-' }}</td>
+                </tr>
+                <tr>
+                    <th>Médecin</th>
+                    <td>{{ rdv.medecin ? rdv.medecin.nom ~ ' ' ~ rdv.medecin.prenom : '-' }}</td>
+                </tr>
+                <tr>
+                    <th>Date du RDV</th>
+                    <td>{{ rdv.dateRdv ? rdv.dateRdv|date('d/m/Y') : '' }}</td>
+                </tr>
+                <tr>
+                    <th>Heure du RDV</th>
+                    <td>{{ rdv.heurRdv ? rdv.heurRdv|date('H:i') : '' }}</td>
+                </tr>
+                <tr>
+                    <th>Créé le</th>
+                    <td>{{ rdv.createdAt ? rdv.createdAt|date('d/m/Y H:i') : '' }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <a type="button" class="btn btn-outline-primary" href="{{ path('app_rdv_index') }}">Retour à la liste</a>
+        {% if is_granted('ROLE_SECRETAIRE') or is_granted('ROLE_MEDECIN') %}
+            <a type="button" class="btn btn-outline-warning" href="{{ path('app_rdv_edit', {'id': rdv.id}) }}">Modifier</a>
+        {% endif %}
+
+        {{ include('rdv/_delete_form.html.twig') }}
+    {% endif %}
+{% endblock %}
