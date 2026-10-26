@@ -29,7 +29,7 @@ class UserAdmin extends Fixture
         $user->setTelephone('0612345678');
         $user->setCreatedAt(new \DateTimeImmutable('now'));
         $user->setAdresse('12 rue de la Paix, 75001 Paris');
-        $user->setCodePostale('75001');
+        $user->setCodePostale(75001);
         $user->setPost('Administrateur');
 
         $manager->persist($user);

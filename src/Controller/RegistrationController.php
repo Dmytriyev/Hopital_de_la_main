@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegistrationFormType;
+use App\Service\UserCredentialGenerator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,7 +17,7 @@ class RegistrationController extends AbstractController
 {
     #[IsGranted('ROLE_ADMIN')]
     #[Route('/register', name: 'app_register', methods: ['GET', 'POST'])]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, UserCredentialGenerator $credentialGenerator): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -35,21 +36,10 @@ class RegistrationController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            // Mot de passe : ! + dateNaissance(ddmmYYYY) + Nom(1 maj + 2 min)  ex: !15031985Mar
-            $dateNaissance = $user->getDateNaissance()->format('dmY');
-            $nom           = mb_strtoupper(mb_substr($user->getNom(), 0, 1))
-                           . mb_strtolower(mb_substr($user->getNom(), 1, 2));
-            $plainPassword = '!' . $dateNaissance . $nom;
+            // Mot de passe et matricule : logique centralisée dans UserCredentialGenerator
+            $plainPassword = $credentialGenerator->generatePlainPassword($user);
             $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
-
-            // Matricule : ID en tête + padding aléatoire pour atteindre 6 chiffres
-            // Exemple : id=7 → "7" + "00342" → 700342
-            $idStr     = (string) $user->getId();
-            $remaining = max(0, 6 - strlen($idStr));
-            $random    = $remaining > 0
-                ? str_pad((string) random_int(0, (int) str_repeat('9', $remaining)), $remaining, '0', STR_PAD_LEFT)
-                : '';
-            $user->setMatricule((int) ($idStr . $random));
+            $user->setMatricule($credentialGenerator->generateMatricule($user->getId()));
             $entityManager->flush();
 
             $this->addFlash('success', sprintf(

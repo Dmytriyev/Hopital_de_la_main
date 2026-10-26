@@ -27,24 +27,12 @@ final class UserController extends AbstractController
 
     #[IsGranted('ROLE_ADMIN')]
     #[Route('/new', name: 'app_user_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(): Response
     {
-        $user = new User();
-        $form = $this->createForm(UserType::class, $user);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $user->setCreatedAt(new \DateTimeImmutable('now'));
-            $entityManager->persist($user);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->render('user/new.html.twig', [
-            'user' => $user,
-            'form' => $form,
-        ]);
+        // Correction de bug : UserType ne contient pas de champ mot de passe.
+        // Créer un utilisateur ici provoquait une erreur SQL (colonne "password" NOT NULL).
+        // La création passe donc par l'inscription, qui génère mot de passe et matricule.
+        return $this->redirectToRoute('app_register', [], Response::HTTP_SEE_OTHER);
     }
 
     #[IsGranted(new Expression("is_granted('ROLE_MEDECIN') or is_granted('ROLE_DIRECTION')"))]

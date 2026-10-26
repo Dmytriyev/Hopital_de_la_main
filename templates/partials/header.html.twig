@@ -15,7 +15,7 @@
 
 		<!-- Toggle button -->
 		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarButtonsExample" aria-controls="navbarButtonsExample" aria-expanded="false" aria-label="Toggle navigation">
-			Hopital de la Main</button>
+			Hôpital de la Main</button>
 		<!-- Collapsible wrapper -->
 		<div
 			class="collapse navbar-collapse"
@@ -24,7 +24,7 @@
 			<!-- Left links -->
 			<ul id="logo-text" class="navbar-nav me-auto text-secondary-emphasis mb-2 mb-lg-0 ">
 				<li class="nav-item">
-					<a id="nom_site" class=" nav-link" href="{{ path('app_home') }}">Hopital de la Main</a>
+					<a id="nom_site" class=" nav-link" href="{{ path('app_home') }}">Hôpital de la Main</a>
 				</li>
 			</ul>
 			<!-- Left links -->
@@ -56,13 +56,13 @@
 									<a class="dropdown-item" href="{{ path('app_prescription_index') }}">Prescriptions</a>
 								</li>
 								<li>
-									<a class="dropdown-item" href="{{ path('app_image_index') }}">Images medical</a>
+									<a class="dropdown-item" href="{{ path('app_image_index') }}">Images médicales</a>
 								</li>
 								<li>
 									<a class="dropdown-item" href="{{ path('app_observation_index') }}">Observations</a>
 								</li>
 								<li>
-									<a class="dropdown-item" href="{{ path('app_user_index') }}">Equipe Médicale</a>
+									<a class="dropdown-item" href="{{ path('app_user_index') }}">Équipe médicale</a>
 								</li>
 								<li>
 									<a class="dropdown-item" href="{{ path('app_specialite_index') }}">Spécialités Médicales</a>
@@ -79,7 +79,7 @@
 									<a class="dropdown-item" href="{{ path('app_dossier_patient_index') }}">Dossiers patients</a>
 								</li>
 								<li>
-									<a class="dropdown-item" href="{{ path('app_image_index') }}">Images medical</a>
+									<a class="dropdown-item" href="{{ path('app_image_index') }}">Images médicales</a>
 								</li>
 								<li>
 									<a class="dropdown-item" href="{{ path('app_prescription_index') }}">Prescriptions</a>
@@ -91,7 +91,7 @@
 									<a class="dropdown-item" href="{{ path('app_salle_operatoire_index') }}">Salles opératoires</a>
 								</li>
 								<li>
-									<a class="dropdown-item" href="{{ path('app_user_index') }}">Equipe Médicale</a>
+									<a class="dropdown-item" href="{{ path('app_user_index') }}">Équipe médicale</a>
 								</li>
 							{% endif %}
 							{% if is_granted("ROLE_INFERMIER") %}
@@ -110,7 +110,7 @@
 							{% endif %}
 							{% if is_granted("ROLE_DIRECTION") %}
 								<li>
-									<a class="dropdown-item" href="{{ path('app_user_index') }}">Equipe Médicale</a>
+									<a class="dropdown-item" href="{{ path('app_user_index') }}">Équipe médicale</a>
 								</li>
 								<li>
 									<a class="dropdown-item" href="{{ path('app_rdv_index') }}">Rendez-vous</a>
@@ -121,10 +121,10 @@
 							{% endif %}
 							{% if is_granted("ROLE_ADMIN") %}
 								<li>
-									<a class="dropdown-item" href="{{ path('app_register') }}">Inscrire membre equipe</a>
+									<a class="dropdown-item" href="{{ path('app_register') }}">Inscrire un membre de l'équipe</a>
 								</li>
 								<li>
-									<a class="dropdown-item" href="{{ path('app_user_index') }}">Equipe Médicale</a>
+									<a class="dropdown-item" href="{{ path('app_user_index') }}">Équipe médicale</a>
 								</li>
 								<li>
 									<a class="dropdown-item" href="{{ path('app_specialite_index') }}">Spécialités Médicales</a>
@@ -132,7 +132,7 @@
 							{% endif %}
 							<li><hr class="dropdown-divider"/></li>
 							<li>
-								<a class="dropdown-item" href="{{ path('app_logout') }}">Se deconnecter</a>
+								<a class="dropdown-item" href="{{ path('app_logout') }}">Se déconnecter</a>
 							</li>
 				{% else %}
 					<li>

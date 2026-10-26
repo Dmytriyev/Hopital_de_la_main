@@ -1,15 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Specialite{% endblock %}
+{% block title %}Spécialité{% endblock %}
 
 {% block body %}
-    <h1>Specialite</h1>
+    <h1>Spécialité</h1>
     {% if app.user is not null %}
 
         <table class="table">
             <tbody>
                 <tr>
-                    <th>Specialisation</th>
+                    <th>Spécialisation</th>
                     <td>{{ specialite.specialisation }}</td>
                 </tr>
                 <tr>

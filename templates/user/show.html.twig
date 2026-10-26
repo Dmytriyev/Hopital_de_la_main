@@ -18,7 +18,7 @@
                 <td>{{ user.nom }}</td>
             </tr>
             <tr>
-                <th>Prenom</th>
+                <th>Prénom</th>
                 <td>{{ user.prenom }}</td>
             </tr>
             <tr>
@@ -30,7 +30,7 @@
                 <td>{{ user.email }}</td>
             </tr>
             <tr>
-                <th>Telephone</th>
+                <th>Téléphone</th>
                 <td>{{ user.telephone }}</td>
             </tr>
             <tr>
@@ -65,7 +65,7 @@
                 <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
             </tr>
             <tr>
-                <th>Crée le</th>
+                <th>Créé le</th>
                 <td>{{ user.createdAt ? user.createdAt|date('d/m/Y') : '' }}</td>
             </tr>
             {% endif %}
@@ -73,7 +73,7 @@
         </tbody>
     </table>
 
-    <a type="button" class="btn btn-outline-primary" href="{{ path('app_user_index') }}">Retour à la liste d'equipe</a>
+    <a type="button" class="btn btn-outline-primary" href="{{ path('app_user_index') }}">Retour à la liste de l'équipe</a>
         {% if is_granted('ROLE_ADMIN') %}
         <a type="button" class="btn btn-outline-warning" href="{{ path('app_user_edit', {'id': user.id}) }}">Modifier</a>
     {% endif %}

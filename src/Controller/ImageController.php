@@ -55,10 +55,11 @@ final class ImageController extends AbstractController
                         $this->getParameter('kernel.project_dir') . '/public/uploads/images',
                         $newFilename
                     );
+                    $image->setImageFile($newFilename);
                 } catch (FileException $e) {
+                    // Correction : on n'enregistre plus un nom de fichier qui n'existe pas sur le disque
                     $this->addFlash('error', 'Erreur lors du téléchargement du fichier.');
                 }
-                $image->setImageFile($newFilename);
             }
             $image->setCreatedAt(new \DateTimeImmutable('now'));
             $entityManager->persist($image);
@@ -102,10 +103,11 @@ final class ImageController extends AbstractController
                         $this->getParameter('kernel.project_dir') . '/public/uploads/images',
                         $newFilename
                     );
+                    $image->setImageFile($newFilename);
                 } catch (FileException $e) {
+                    // Correction : on n'enregistre plus un nom de fichier qui n'existe pas sur le disque
                     $this->addFlash('error', 'Erreur lors du téléchargement du fichier.');
                 }
-                $image->setImageFile($newFilename);
             }
             $image->setUpdatedAt(new \DateTimeImmutable('now'));
             $entityManager->flush();

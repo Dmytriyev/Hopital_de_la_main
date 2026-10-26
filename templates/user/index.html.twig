@@ -17,7 +17,7 @@
 			Tous
 		</button>
 		<button type="button" class="btn btn-outline-primary" id="btn-Medecin" onclick="filtrer('Medecin')">
-			Medecin
+			Médecin
 		</button>
 		<button type="button" class="btn btn-outline-primary" id="btn-Infirmier" onclick="filtrer('Infirmier')">
 			Infirmier
@@ -31,7 +31,7 @@
 	</div>
 	<div class="btn mb-3">
 		{% if is_granted('ROLE_ADMIN') %}
-			<a type="button" class="btn btn-outline-success mb-3" href="{{ path('app_user_new') }}">Créer un utilisateur</a>
+			<a type="button" class="btn btn-outline-success mb-3" href="{{ path('app_register') }}">Créer un utilisateur</a>
 		{% endif %}
 	</div>
 
@@ -57,11 +57,11 @@
 						<td>{{ user.post }}</td>
 						<td>
 							{% if 'ROLE_MEDECIN' in user.roles %}
-								<span class="badge bg-success">Medecin</span>
+								<span class="badge bg-success">Médecin</span>
 							{% elseif 'ROLE_INFERMIER' in user.roles %}
 								<span class="badge bg-info">Infirmier</span>
 							{% elseif 'ROLE_SECRETAIRE' in user.roles %}
-								<span class="badge bg-warning">Secretaire</span>
+								<span class="badge bg-warning">Secrétaire</span>
 							{% elseif 'ROLE_DIRECTION' in user.roles %}
 								<span class="badge bg-danger">Directeur</span>
 							{% else %}

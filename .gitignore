@@ -28,3 +28,8 @@ npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
 .env
+
+###> données patients ###
+# Images médicales envoyées par les utilisateurs : ne jamais les versionner (RGPD)
+/public/uploads/
+###< données patients ###

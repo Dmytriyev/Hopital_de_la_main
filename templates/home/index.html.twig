@@ -14,7 +14,7 @@
 			{% if is_granted("ROLE_SECRETAIRE") %}
 				<a class="button btn btn-outline-dark btn-primary" href="{{ path('app_dossier_patient_new') }}">Ajouter un patient</a>
 				<a class="button btn btn-outline-dark btn-primary" href="{{ path('app_dossier_patient_index') }}">Choisir un Dossier</a>
-				<a class="button btn btn-outline-dark btn-primary" href="{{ path('app_rdv_index') }}">RDV Medical</a>
+				<a class="button btn btn-outline-dark btn-primary" href="{{ path('app_rdv_index') }}">RDV médical</a>
 				<a class="button btn btn-outline-dark btn-primary" href="{{ path('app_rdv_operatoire_index') }}">RDV Opératoire</a>
 				<a class="button btn btn-outline-dark btn-primary" href="{{ path('app_chambre_index') }}">Choisir une Chambre</a>
 				<a class="button btn btn-outline-dark btn-primary" href="{{ path('app_salle_operatoire_index') }}">Choisir une Salle Opératoire</a>
@@ -22,17 +22,17 @@
 			{% if is_granted("ROLE_MEDECIN") %}
 				<a class="button btn btn-outline-dark btn-primary" href="{{ path('app_dossier_patient_index') }}">Choisir un Dossier</a>
 				<a class="button btn btn-outline-dark btn-primary" href="{{ path('app_consultation_new') }}">Ajouter une consultation</a>
-				<a class="button btn btn-outline-dark btn-primary" href="{{ path('app_rdv_index') }}">RDV Medical</a>
+				<a class="button btn btn-outline-dark btn-primary" href="{{ path('app_rdv_index') }}">RDV médical</a>
 				<a class="button btn btn-outline-dark btn-primary" href="{{ path('app_rdv_operatoire_index') }}">RDV Opératoire</a>
 			{% endif %}
 			{% if is_granted("ROLE_ADMIN") %}
-				<a class="button btn btn-outline-dark btn-primary" href="{{ path('app_register') }}">Ajouter un Equepier</a>
+				<a class="button btn btn-outline-dark btn-primary" href="{{ path('app_register') }}">Ajouter un équipier</a>
 				<a class="button btn btn-outline-dark btn-primary" href="{{ path('app_chambre_new') }}">Ajouter un Chambre</a>
 				<a class="button btn btn-outline-dark btn-primary" href="{{ path('app_salle_operatoire_new') }}">Ajouter une salle opératoire</a>
 				<a class="button btn btn-outline-dark btn-primary" href="{{ path('app_specialite_new') }}">Ajouter une spécialité</a>
 			{% endif %}
 			{% if is_granted("ROLE_DIRECTION") %}
-				<a class="button btn btn-outline-dark btn-primary" href="{{ path('app_user_index') }}">Voir l'Equipe Médicale</a>
+				<a class="button btn btn-outline-dark btn-primary" href="{{ path('app_user_index') }}">Voir l'équipe médicale</a>
 				<a class="button btn btn-outline-dark btn-primary" href="{{ path('app_rdv_index') }}">Voir les Rendez-vous</a>
 			{% endif %}
 		</div>

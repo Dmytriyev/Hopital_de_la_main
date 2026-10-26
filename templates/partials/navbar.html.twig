@@ -13,19 +13,19 @@
 			<a class="btn btn-outline-dark btn-primary" href="{{ path('app_dossier_patient_index') }}">Choisir un Dossier</a>
 			<a class="btn btn-outline-dark btn-primary" href="{{ path('app_rdv_index') }}">Rendez-vous</a>
 			<a class="btn btn-outline-dark btn-primary" href="{{ path('app_rdv_operatoire_index') }}">Rendez-vous opératoire</a>
-			<a class="btn btn-outline-dark btn-primary" href="{{ path('app_user_index') }}">Equipe Médicale</a>
+			<a class="btn btn-outline-dark btn-primary" href="{{ path('app_user_index') }}">Équipe médicale</a>
 		{% endif %}
 		{% if is_granted("ROLE_INFERMIER") %}
 			<a class="btn btn-outline-dark btn-primary" href="{{ path('app_dossier_patient_index') }}">Choisir un Dossier</a>
 			<a class="btn btn-outline-dark btn-primary" href="{{ path('app_observation_index') }}">Observations</a>
 		{% endif %}
 		{% if is_granted("ROLE_DIRECTION") %}
-			<a class="btn btn-outline-dark btn-primary" href="{{ path('app_user_index') }}">Equipe Médicale</a>
+			<a class="btn btn-outline-dark btn-primary" href="{{ path('app_user_index') }}">Équipe médicale</a>
 			<a class="btn btn-outline-dark btn-primary" href="{{ path('app_rdv_index') }}">Rendez-vous</a>
 		{% endif %}
 		{% if is_granted("ROLE_ADMIN") %}
-			<a class="btn btn-outline-dark btn-primary" href="{{ path('app_register') }}">Inscrire membre equipe</a>
-			<a class="btn btn-outline-dark btn-primary" href="{{ path('app_user_index') }}">Equipe Médicale</a>
+			<a class="btn btn-outline-dark btn-primary" href="{{ path('app_register') }}">Inscrire un membre de l'équipe</a>
+			<a class="btn btn-outline-dark btn-primary" href="{{ path('app_user_index') }}">Équipe médicale</a>
 			<a class="btn btn-outline-dark btn-primary" href="{{ path('app_specialite_index') }}">Spécialités Médicales</a>
 		{% endif %}
 		<hr class="divider"/></hr>
@@ -35,8 +35,8 @@
 				{{ app.user.prenom|capitalize }}</p>
 		{% endif %}
 		<hr class="divider"/></hr>
-		<a class="btn btn-outline-dark btn-primary" href="{{ path('app_logout') }}">Deconnection</a>
+		<a class="btn btn-outline-dark btn-primary" href="{{ path('app_logout') }}">Déconnexion</a>
 	{% else %}
-		<a class="btn btn-outline-dark btn-primary" href="{{ path('app_login') }}">Connection</a>
+		<a class="btn btn-outline-dark btn-primary" href="{{ path('app_login') }}">Connexion</a>
 	{% endif %}
 </section>

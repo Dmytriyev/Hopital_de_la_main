@@ -63,9 +63,12 @@ class ImageType extends AbstractType
                     new NotBlank(
                         message: 'Sélectionnez une image à télécharger',
                     ),
+                    // Sécurité : le SVG est refusé, car il peut contenir du JavaScript
+                    // exécuté par le navigateur (faille XSS stockée dans /public/uploads).
                     new File(
-                        mimeTypes: ['image/jpeg', 'image/png', 'image/svg+xml', 'application/pdf'],
-                        mimeTypesMessage: 'Le fichier doit être au format JPG, JPEG, PNG, PDF ou SVG',
+                        maxSize: '10M',
+                        mimeTypes: ['image/jpeg', 'image/png', 'application/pdf'],
+                        mimeTypesMessage: 'Le fichier doit être au format JPG, JPEG, PNG ou PDF',
                     ),
                 ],
             ])

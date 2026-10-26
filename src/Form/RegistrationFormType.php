@@ -250,8 +250,8 @@ class RegistrationFormType extends AbstractType
         // Construction du tableau des rôles disponibles
         $roleChoices = [
             'Infirmier' => 'ROLE_INFERMIER',
-            'Medecin' => 'ROLE_MEDECIN',
-            'Secretariat' => 'ROLE_SECRETAIRE',
+            'Médecin' => 'ROLE_MEDECIN',
+            'Secrétariat' => 'ROLE_SECRETAIRE',
             'Direction' => 'ROLE_DIRECTION'
         ];
 

@@ -63,7 +63,7 @@ final class RdvOperatoireController extends AbstractController
         ]);
     }
 
-    #[IsGranted(new Expression("is_granted('ROLE_MEDECIN') or is_granted('ROLE_SECRETAIRE')or is_granted('ROLE_INFERMIER')"))]
+    #[IsGranted(new Expression("is_granted('ROLE_MEDECIN') or is_granted('ROLE_SECRETAIRE') or is_granted('ROLE_INFERMIER')"))]
     #[Route('/{id}', name: 'app_rdv_operatoire_show', methods: ['GET'])]
     public function show(RdvOperatoire $rdvOperatoire): Response
     {

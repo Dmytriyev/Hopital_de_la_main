@@ -15,11 +15,27 @@
         <ini name="error_reporting" value="-1" />
         <server name="APP_ENV" value="test" force="true" />
         <server name="SHELL_VERBOSITY" value="-1" />
+        <!-- Les tests utilisent une base SQLite jetable : pas besoin de MySQL, et aucune donnée réelle n'est touchée -->
+        <server name="DATABASE_URL" value="sqlite:///%kernel.project_dir%/var/test.db" force="true" />
+        <server name="APP_SECRET" value="secret-uniquement-pour-les-tests" force="true" />
+        <server name="KERNEL_CLASS" value="App\Kernel" force="true" />
     </php>
 
     <testsuites>
-        <testsuite name="Project Test Suite">
-            <directory>tests</directory>
+        <testsuite name="unitaire">
+            <directory>tests/Unit</directory>
+        </testsuite>
+        <testsuite name="integration">
+            <directory>tests/Integration</directory>
+        </testsuite>
+        <testsuite name="securite">
+            <directory>tests/Securite</directory>
+        </testsuite>
+        <testsuite name="erreurs">
+            <directory>tests/Erreurs</directory>
+        </testsuite>
+        <testsuite name="orthographe">
+            <directory>tests/Orthographe</directory>
         </testsuite>
     </testsuites>
 

@@ -24,7 +24,7 @@
                 {% for chambre in chambres %}
                     <tr>
                         <td>{{ chambre.numeroChambre }}</td>
-                        <td>{{ chambre.typeChambre ? 'Privee' : 'Publique' }}</td>
+                        <td>{{ chambre.typeChambre ? 'Privée' : 'Publique' }}</td>
                         <td>{{ chambre.dureeOccupation and chambre.dureeOccupation|date('U') > 0 ? 'Oui' : 'Non' }}</td>
                         <td>{{ chambre.dureeOccupation ? chambre.dureeOccupation|date('H:i') : '' }}</td>
                         <td>{{ chambre.rdvOperatoires is not empty ? chambre.rdvOperatoires|map(rdv => rdv.patient ? rdv.patient.nom ~ ' ' ~ rdv.patient.prenom : null)|filter(nom => nom is not null)|join(', ') : '-' }}</td>

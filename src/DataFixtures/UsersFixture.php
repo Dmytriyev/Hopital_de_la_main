@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Specialite;
 use App\Entity\User;
+use App\Service\UserCredentialGenerator;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -24,7 +25,8 @@ class UsersFixture extends Fixture
     public const REF_SECRETAIRE_MERCIER = 'secretaire_mercier';
 
     public function __construct(
-        private UserPasswordHasherInterface $userPasswordHasher
+        private UserPasswordHasherInterface $userPasswordHasher,
+        private UserCredentialGenerator $credentialGenerator,
     ) {}
 
     public function load(ObjectManager $manager): void
@@ -327,21 +329,10 @@ class UsersFixture extends Fixture
         $manager->persist($user);
         $manager->flush();
 
-        // Mot de passe : ! + dateNaissance(ddmmYYYY) + Nom(1 maj + 2 min)  ex: !15031975Lef
-        $dateNaissance = $user->getDateNaissance()->format('dmY');
-        $nom           = mb_strtoupper(mb_substr($user->getNom(), 0, 1))
-                       . mb_strtolower(mb_substr($user->getNom(), 1, 2));
-        $plainPassword = '!' . $dateNaissance . $nom;
+        // Mot de passe et matricule : logique centralisée dans UserCredentialGenerator
+        $plainPassword = $this->credentialGenerator->generatePlainPassword($user);
         $user->setPassword($this->userPasswordHasher->hashPassword($user, $plainPassword));
-
-
-        // Matricule : ID en tête + padding aléatoire pour atteindre 6 chiffres
-        $idStr     = (string) $user->getId();
-        $remaining = max(0, 6 - strlen($idStr));
-        $random    = $remaining > 0
-            ? str_pad((string) random_int(0, (int) str_repeat('9', $remaining)), $remaining, '0', STR_PAD_LEFT)
-            : '';
-        $user->setMatricule((int) ($idStr . $random));
+        $user->setMatricule($this->credentialGenerator->generateMatricule($user->getId()));
         $manager->flush();
 
         if (isset($data['reference'])) {

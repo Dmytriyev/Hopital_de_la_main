@@ -5,7 +5,7 @@
 {% block body %}
     <h1>Liste des Observations</h1>
     {% if app.user is not null %}
-        {% if is_granted('ROLE_MEDECIN') or is_granted('ROLE_INFIRMIER') %}
+        {% if is_granted('ROLE_MEDECIN') or is_granted('ROLE_INFERMIER') %}
             <a type="button" class="btn btn-outline-success" href="{{ path('app_observation_new') }}">Créer une nouvelle observation</a>
         {% endif %}
 
